@@ -8,6 +8,5 @@ namespace FlyerTrading
 {
     class SystemData
     {
-        
     }
 }

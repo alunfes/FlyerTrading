@@ -41,13 +41,13 @@ namespace FlyerTrading
             {
                 await Task.Run(async () =>
                 {
-                    if ((num_private_called - private_called_per_min) > 150 || (num_public_called + num_private_called - public_called_per_min - private_called_per_min) > 450)
+                    /*if ((num_private_called - private_called_per_min) > 150 || (num_public_called + num_private_called - public_called_per_min - private_called_per_min) > 450)
                     {
                         setApiAccessProhibition(true);
 
                     }
                     else
-                        setApiAccessProhibition(false);
+                        setApiAccessProhibition(false);*/
 
                     Form1.Form1Instance.Invoke((Action)(() =>
                     {

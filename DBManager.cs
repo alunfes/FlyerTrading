@@ -160,6 +160,39 @@ namespace FlyerTrading
         }
 
 
+        public static void insertBoardDiff(Dictionary<DateTime, double[]> data)
+        {
+            lock (lockobj)
+            {
+                var con = new SQLiteConnection("Data Source=" + SystemData.db_name);
+                con.Open();
+                try
+                {
+                    using (var cmd = new SQLiteCommand(con))
+                    {
+                        cmd.Transaction = con.BeginTransaction();
+                        var p = data.Values.ToList();
+                        var dt = data.Keys.ToList();
+                        for (int i = 0; i < p.Count; i++)
+                        {
+                            cmd.CommandText = "INSERT INTO MarketDataLogBoardDiff(datetime,bid_price,ask_price,spread) values('" +
+                                dt[i].ToString("yyyy:MM:dd:HH:mm:ss:fff") + "','" + p[i][1] + "','" + p[i][0] + "','" + p[i][2] + "')";
+                            cmd.ExecuteNonQuery();
+                        }
+                        cmd.Transaction.Commit();
+                    }
+                }
+                catch (SQLiteException exc)
+                {
+                    System.Diagnostics.Debug.WriteLine(exc.Message);
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
+
         public static Dictionary<DateTime, double[]> getAllBoardData()
         {
             lock (lockobj)
@@ -208,7 +241,7 @@ namespace FlyerTrading
                 //MarketDataLog Executions
                 pushSql(SystemData.db_name, "create table if not exists MarketDataLogExecutions(no INTEGER NOT NULL PRIMARY KEY,id int, side text, price real, size real, exec_date text, buy_child_order_acceptance_id text, sell_child_order_acceptance_id text)");
                 pushSql(SystemData.db_name, "create table if not exists Board(no INTEGER NOT NULL PRIMARY KEY,datetime text,bid_price real,ask_price real,spread real)");
-                //pushSql("./" + SystemData.db_name, "create table MarketDataLog.BoardDiff(id int, side text, price real, size real, exec_date text, buy_child_order_acceptance_id text, sell_child_order_acceptance_id text)");
+                pushSql(SystemData.db_name, "create table if not exists MarketDataLogBoardDiff(no INTEGER NOT NULL PRIMARY KEY,datetime text,bid_price real,ask_price real,spread real)");
             }
         }
 
