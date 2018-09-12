@@ -100,8 +100,45 @@ namespace FlyerTrading
             {
                 if (board.spread >= entry_spread)
                 {
-                    var sell_order = ac.entry(ask_min - 1, order_size, "SELL");
-                    var buy_order = ac.entry(bid_max + 1, order_size, "BUY");
+                    var sell_order = await ac.entry(ask_min - 1, order_size, "SELL");
+                    Form1.Form1Instance.addListBox2("ordered sell @" + (ask_min - 1));
+                    var buy_order = await ac.entry(bid_max + 1, order_size, "BUY");
+                    Form1.Form1Instance.addListBox2("ordered buy @" + bid_max + 1);
+
+                }
+                else if (current_positions.Count == 0 && current_orders.Count > 0) //no positions but some orders
+                {
+                    if (board.spread < entry_spread)
+                    {
+                        await ac.cancelAllOrders();
+                    }
+                    else
+                    {
+                        for(int i=0; i<ac.order_dt.Count; i++)
+                        {
+                            if (ac.order_side[i] == "BUY")
+                            {
+                                if (ac.order_price[i] <= bid_max)
+                                {
+                                    await ac.cancelOrder(i);
+                                    Form1.Form1Instance.addListBox2("cancelled buy order, id=" + v.child_order_acceptance_id);
+                                    await FlyerAPI2.sendChiledOrderAsync("BUY", bid_max + 1, order_size, 1);
+                                    Form1.Form1Instance.addListBox2("ordered buy @" + (bid_max + 1));
+                                }
+                            }
+                            else
+                            {
+                                if (v.price >= ask_min)
+                                {
+                                    await FlyerAPI2.cancelChildOrdersAsync(v.child_order_acceptance_id);
+                                    Form1.Form1Instance.addListBox2("cancelled sell order, id=" + v.child_order_acceptance_id);
+                                    await FlyerAPI2.sendChiledOrderAsync("SELL", ask_min - 1, order_size, 1);
+                                    Form1.Form1Instance.addListBox2("ordered sell @" + (ask_min - 1));
+                                    res = "";
+                                }
+                            }
+                        }
+                    }
                 }
             }
 

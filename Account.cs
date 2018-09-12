@@ -230,11 +230,13 @@ namespace FlyerTrading
                         }
                     }
                 }
+                await checkExecutionAndUpdateOrders();
             } while (holding_size.Count > 0);
             takeLog("Completed exit price tracing order");
             Form1.Form1Instance.addListBox2("Completed exit price tracing order");
             return res;
         }
+
 
         public async Task<string> checkExecutionAndUpdateOrders()
         {
@@ -252,6 +254,5 @@ namespace FlyerTrading
             }
             return res;
         }
-
     }
 }
