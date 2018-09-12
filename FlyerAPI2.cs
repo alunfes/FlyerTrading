@@ -18,6 +18,8 @@ namespace FlyerTrading
         private static object lockobj_num_private_called = new object();
         private static long num_public_called;
         private static long num_private_called;
+        private static List<long> num_public_minit;
+        private static List<long> num_private_minit;
 
         private static bool api_access_prohibition;
         private static object lockobj_monitor = new object();
@@ -31,33 +33,42 @@ namespace FlyerTrading
             lock (lockobj_monitor)
                 api_access_prohibition = flg;
         }
-        public static async void startFlyerAPIMonitoring()
+        public static async Task<string> startFlyerAPIMonitoring()
         {
             setApiAccessProhibition(false);
-            double public_called_per_min = 0;
-            double private_called_per_min = 0;
+            num_private_minit = new List<long>();
+            num_public_minit = new List<long>();
             int num = 0;
+
             while (SystemFlg.getMasterFlg())
             {
                 await Task.Run(async () =>
                 {
-                    /*if ((num_private_called - private_called_per_min) > 150 || (num_public_called + num_private_called - public_called_per_min - private_called_per_min) > 450)
+                    num_public_minit.Add(num_public_called);
+                    num_private_minit.Add(num_private_called);
+
+                    if (num_public_minit.Count > 60 && num_private_minit.Count > 60)
                     {
-                        setApiAccessProhibition(true);
+                        if ((num_private_called - num_private_minit[0]) > 150 || (num_public_called + num_private_called - num_public_minit[0] - num_private_minit[0]) > 450)
+                        {
+                            setApiAccessProhibition(true);
 
+                        }
+                        else
+                            setApiAccessProhibition(false);
+                        num_private_minit.RemoveAt(0);
+                        num_public_minit.RemoveAt(0);
                     }
-                    else
-                        setApiAccessProhibition(false);*/
-
                     Form1.Form1Instance.Invoke((Action)(() =>
                     {
-                        Form1.Form1Instance.setLabel8("num total private api acecss=" + getNumPrivateCalled().ToString());
-                        Form1.Form1Instance.setLabel9("num total public api acecss=" + getNumPublicCalled().ToString());
+                        Form1.Form1Instance.setLabel8("num private api acecss in a min=" + (num_private_called - num_private_minit[0]).ToString());
+                        Form1.Form1Instance.setLabel9("num public api acecss in a min=" + (num_public_called - num_public_minit[0]).ToString());
                     }));
                     await Task.Delay(1000);
                     return 0;
                 });
             }
+            return "completed";
         }
 
         public static void addNumPublicCalled()
@@ -162,6 +173,21 @@ namespace FlyerTrading
             addNumPublicCalled();
             return res;
         }
+
+        public static async Task<List<ExecutionData>> getExecutionsAcceptanceIDAsync(string acceptance_id)
+        {
+            var method = "GET";
+            var path = "/v1/me/getexecutions";
+            var id = "?child_order_acceptance_id="+acceptance_id;
+            var query = "?product_code=FX_BTC_JPY"+id;
+
+
+            var res = JsonConvert.DeserializeObject<List<ExecutionData>>(await getFuncAsync(method, path, query));
+            addNumPublicCalled();
+            return res;
+        }
+
+
 
         public static async Task<string> cancelAllChildOrdersAsync()
         {

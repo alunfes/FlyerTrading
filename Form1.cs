@@ -142,13 +142,71 @@ namespace FlyerTrading
         {
             MasterThread.startMasterThread();
             MarketData.startMarketData();
-            FlyerAPI2.startFlyerAPIMonitoring();
         }
 
         private void buttonStopMasterThread_Click(object sender, EventArgs e)
         {
             MasterThread.finishMasterThread();
         }
+
+        private async void buttonGetExecutions_Click(object sender, EventArgs e)
+        {
+            initializeListBox();
+            var res = await FlyerAPI2.getExecutionsAsync();
+            foreach (var v in res)
+            {
+                addListBox("acceptance id=" + v.child_order_accesptance_id + ", commission=" + v.commission + ", price=" + v.price + ", size=" + v.size);
+            }
+        }
+
+        private async void buttonGetPositions_Click(object sender, EventArgs e)
+        {
+            initializeListBox();
+            var res = await FlyerAPI2.getPositionsAsync();
+            foreach (var v in res)
+            {
+                addListBox(v.open_date + ", price=" + v.price + ", pnl=" + v.pnl+", sfd="+v.sfd+", size"+v.size);
+            }
+        }
+
+        private async void buttonGetOrders_Click(object sender, EventArgs e)
+        {
+            Form1Instance.initializeListBox();
+            var res5 = await FlyerAPI2.getChildOrderAsync("ACTIVE");
+            foreach (var v in res5)
+                Form1Instance.addListBox(v.child_order_date + " - " + v.side + " - " + v.price + "*" + v.size + " - " + v.child_order_acceptance_id);
+        }
+
+        private void buttonStartMMBot_Click(object sender, EventArgs e)
+        {
+            Parallel.Invoke(
+                () => MasterThread.startMasterThread(),
+                () => MarketData.startMarketData(),
+            () => MMbot.startMMBot(200, 0.0101)
+            );
+        }
+
+        private void buttonStopMMBot_Click(object sender, EventArgs e)
+        {
+            SystemFlg.initialize();
+        }
+        private async void buttonGetExecutionsId_Click(object sender, EventArgs e)
+        {
+            var buy = await FlyerAPI2.sendChiledOrderAsync("BUY", 600000, 0.01, 1);
+            var res = await FlyerAPI2.getExecutionsAcceptanceIDAsync(buy.order_id);
+            if (res.Count > 0)
+                this.addListBox(res[0].exec_date.ToLongTimeString());
+            var cancel = await FlyerAPI2.cancelChildOrdersAsync(buy.order_id);
+            var active = await FlyerAPI2.getChildOrderAsync("ACTIVE");
+            this.addListBox("active order="+active.Count);
+        }
+
+
+
+
+
+
+
 
         #region Delegate
         private delegate void setLabel1Delegate(string text);
@@ -376,6 +434,11 @@ namespace FlyerTrading
             for(int i=0; i<ask_p.Length; i++)
                 this.dataGridView1.Rows.Add("", "", ask_p[i], ask_s[i]);
         }
+
+
+
+
+
 
 
 

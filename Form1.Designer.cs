@@ -59,6 +59,12 @@
             this.label12 = new System.Windows.Forms.Label();
             this.buttonStartMasterThread = new System.Windows.Forms.Button();
             this.buttonStopMasterThread = new System.Windows.Forms.Button();
+            this.buttonGetExecutions = new System.Windows.Forms.Button();
+            this.buttonGetPositions = new System.Windows.Forms.Button();
+            this.buttonGetOrders = new System.Windows.Forms.Button();
+            this.buttonStartMMBot = new System.Windows.Forms.Button();
+            this.buttonStopMMBot = new System.Windows.Forms.Button();
+            this.buttonGetExecutionsId = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -146,7 +152,7 @@
             this.textBox1.Location = new System.Drawing.Point(2171, 19);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(311, 235);
+            this.textBox1.Size = new System.Drawing.Size(311, 334);
             this.textBox1.TabIndex = 9;
             // 
             // buttonCancelOrder
@@ -345,12 +351,78 @@
             this.buttonStopMasterThread.UseVisualStyleBackColor = true;
             this.buttonStopMasterThread.Click += new System.EventHandler(this.buttonStopMasterThread_Click);
             // 
+            // buttonGetExecutions
+            // 
+            this.buttonGetExecutions.Location = new System.Drawing.Point(1168, 998);
+            this.buttonGetExecutions.Name = "buttonGetExecutions";
+            this.buttonGetExecutions.Size = new System.Drawing.Size(230, 33);
+            this.buttonGetExecutions.TabIndex = 28;
+            this.buttonGetExecutions.Text = "get executions";
+            this.buttonGetExecutions.UseVisualStyleBackColor = true;
+            this.buttonGetExecutions.Click += new System.EventHandler(this.buttonGetExecutions_Click);
+            // 
+            // buttonGetPositions
+            // 
+            this.buttonGetPositions.Location = new System.Drawing.Point(1168, 1060);
+            this.buttonGetPositions.Name = "buttonGetPositions";
+            this.buttonGetPositions.Size = new System.Drawing.Size(230, 33);
+            this.buttonGetPositions.TabIndex = 29;
+            this.buttonGetPositions.Text = "get positions";
+            this.buttonGetPositions.UseVisualStyleBackColor = true;
+            this.buttonGetPositions.Click += new System.EventHandler(this.buttonGetPositions_Click);
+            // 
+            // buttonGetOrders
+            // 
+            this.buttonGetOrders.Location = new System.Drawing.Point(1168, 1117);
+            this.buttonGetOrders.Name = "buttonGetOrders";
+            this.buttonGetOrders.Size = new System.Drawing.Size(230, 33);
+            this.buttonGetOrders.TabIndex = 30;
+            this.buttonGetOrders.Text = "get orders";
+            this.buttonGetOrders.UseVisualStyleBackColor = true;
+            this.buttonGetOrders.Click += new System.EventHandler(this.buttonGetOrders_Click);
+            // 
+            // buttonStartMMBot
+            // 
+            this.buttonStartMMBot.Location = new System.Drawing.Point(1377, 179);
+            this.buttonStartMMBot.Name = "buttonStartMMBot";
+            this.buttonStartMMBot.Size = new System.Drawing.Size(179, 75);
+            this.buttonStartMMBot.TabIndex = 31;
+            this.buttonStartMMBot.Text = "start MMBot";
+            this.buttonStartMMBot.UseVisualStyleBackColor = true;
+            this.buttonStartMMBot.Click += new System.EventHandler(this.buttonStartMMBot_Click);
+            // 
+            // buttonStopMMBot
+            // 
+            this.buttonStopMMBot.Location = new System.Drawing.Point(1377, 262);
+            this.buttonStopMMBot.Name = "buttonStopMMBot";
+            this.buttonStopMMBot.Size = new System.Drawing.Size(179, 75);
+            this.buttonStopMMBot.TabIndex = 32;
+            this.buttonStopMMBot.Text = "stop MMBot";
+            this.buttonStopMMBot.UseVisualStyleBackColor = true;
+            this.buttonStopMMBot.Click += new System.EventHandler(this.buttonStopMMBot_Click);
+            // 
+            // buttonGetExecutionsId
+            // 
+            this.buttonGetExecutionsId.Location = new System.Drawing.Point(1168, 1180);
+            this.buttonGetExecutionsId.Name = "buttonGetExecutionsId";
+            this.buttonGetExecutionsId.Size = new System.Drawing.Size(230, 33);
+            this.buttonGetExecutionsId.TabIndex = 33;
+            this.buttonGetExecutionsId.Text = "get id exe";
+            this.buttonGetExecutionsId.UseVisualStyleBackColor = true;
+            this.buttonGetExecutionsId.Click += new System.EventHandler(this.buttonGetExecutionsId_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(2740, 1534);
+            this.Controls.Add(this.buttonGetExecutionsId);
+            this.Controls.Add(this.buttonStopMMBot);
+            this.Controls.Add(this.buttonStartMMBot);
+            this.Controls.Add(this.buttonGetOrders);
+            this.Controls.Add(this.buttonGetPositions);
+            this.Controls.Add(this.buttonGetExecutions);
             this.Controls.Add(this.buttonStopMasterThread);
             this.Controls.Add(this.buttonStartMasterThread);
             this.Controls.Add(this.label10);
@@ -420,6 +492,12 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Button buttonStartMasterThread;
         private System.Windows.Forms.Button buttonStopMasterThread;
+        private System.Windows.Forms.Button buttonGetExecutions;
+        private System.Windows.Forms.Button buttonGetPositions;
+        private System.Windows.Forms.Button buttonGetOrders;
+        private System.Windows.Forms.Button buttonStartMMBot;
+        private System.Windows.Forms.Button buttonStopMMBot;
+        private System.Windows.Forms.Button buttonGetExecutionsId;
     }
 }
 
