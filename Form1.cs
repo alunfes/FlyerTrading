@@ -81,10 +81,38 @@ namespace FlyerTrading
         {
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
             sw.Start();
-            var res = await FlyerAPI2.sendChiledOrderAsync("BUY", 600000, 0.01, 1);
+            var board = await FlyerAPI2.getBoardAsync("FX_BTC_JPY");
+            var res = await FlyerAPI2.sendChiledOrderAsync("SELL", board.Asks.Select(x=>x.Price).ToList().Min()-1, 0.01, 1);
+
+            var exe = await FlyerAPI2.getExecutionsAcceptanceIDAsync(res.order_id);
+
+            var posi = await FlyerAPI2.getPositionsAsync();
+
+            await Task.Delay(5000);
+
+            var board2 = await FlyerAPI2.getBoardAsync("FX_BTC_JPY");
+            var res2 = await FlyerAPI2.sendChiledOrderAsync("SELL", board2.Asks.Select(x => x.Price).ToList().Max()-1, 0.01, 1);
+
+            var exe2 = await FlyerAPI2.getExecutionsAcceptanceIDAsync(res2.order_id);
+
+            var posi2 = await FlyerAPI2.getPositionsAsync();
+
             sw.Stop();
             id = res.order_id;
             Form1Instance.addListBox2(res.order_id + ":time="+sw.ElapsedMilliseconds);
+        }
+
+        private async void buttonExitAll_Click(object sender, EventArgs e)
+        {
+        }
+
+        private async void button1_Click(object sender, EventArgs e) //get posisiont
+        {
+            var positions = await FlyerAPI2.getPositionsAsync();
+            for(int i=0; i<positions.Count; i++)
+            {
+                addListBox(positions[i].side + ":" + positions[i].size + "@" + positions[i].price);
+            }
         }
 
         private void buttonTest_Click(object sender, EventArgs e)
@@ -182,7 +210,7 @@ namespace FlyerTrading
             Parallel.Invoke(
                 () => MasterThread.startMasterThread(),
                 () => MarketData.startMarketData(),
-            () => MMbot.startMMBot(200, 0.0101)
+            () => MMbot.startMMBot(200, 0.01)
             );
         }
 
@@ -201,7 +229,7 @@ namespace FlyerTrading
             this.addListBox("active order="+active.Count);
         }
 
-
+        
 
 
 
@@ -434,6 +462,8 @@ namespace FlyerTrading
             for(int i=0; i<ask_p.Length; i++)
                 this.dataGridView1.Rows.Add("", "", ask_p[i], ask_s[i]);
         }
+
+
 
 
 

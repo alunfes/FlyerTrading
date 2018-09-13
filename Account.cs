@@ -110,6 +110,7 @@ namespace FlyerTrading
             holding_price = new List<double>();
             holding_side = new List<string>();
             holding_size = new List<double>();
+            System.Diagnostics.Debug.WriteLine("kita4");
         }
 
         public void takeLog(string log)
@@ -168,6 +169,7 @@ namespace FlyerTrading
         {
             string res = "";
             takeLog("started exit price tracing order");
+            Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("started price tracing order"); }));
 
             do
             {
@@ -185,22 +187,32 @@ namespace FlyerTrading
                             {
                                 if (order_price[index] >= ask_min)
                                 {
-                                    await FlyerAPI2.cancelChildOrdersAsync(holding_acceptance_id[i]);
-                                    removeOrder(index);
-                                    takeLog("PirceTracingOrder - cancelled sell order " + order_price[i] + " x " + order_lot[i]);
-                                    Form1.Form1Instance.addListBox2("PirceTracingOrder - cancelled buy order, id=" + holding_acceptance_id[i]);
-                                    var order = await FlyerAPI2.sendChiledOrderAsync("SELL", ask_min - 1, holding_size[i], 1);
-                                    addOrder(DateTime.Now, ask_min - 1, holding_size[i], order.order_id, "ACTIVE", "SELL");
-                                    takeLog("PirceTracingOrder - entry sell order " + (ask_min - 1).ToString() + " x " + order_lot[i]);
-                                    Form1.Form1Instance.addListBox2("PirceTracingOrder - ordered sell @" + (ask_min - 1));
+                                    var res_cancel =await FlyerAPI2.cancelChildOrdersAsync(order_id[index]);
+                                    if (res_cancel != "error")
+                                    {
+                                        takeLog("PirceTracingOrder - cancelled sell order " + order_price[index] + " x " + order_lot[index]);
+                                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("PirceTracingOrder - cancelled buy order : " + order_price[index] + " x " + order_lot[index]); }));
+                                        removeOrder(index);
+                                        var order = await FlyerAPI2.sendChiledOrderAsync("SELL", ask_min - 1, holding_size[i], 1);
+                                        if(order.order_id!="")
+                                        {
+                                            addOrder(DateTime.Now, ask_min - 1, holding_size[i], order.order_id, "ACTIVE", "SELL");
+                                            takeLog("PirceTracingOrder - entry sell order " + (ask_min - 1).ToString() + " x " + holding_size[i]);
+                                            Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("PirceTracingOrder - ordered sell @" + (ask_min - 1)); }));
+                                        }
+                                    }
                                     break;
                                 }
                             }
-                            else //exit order it not yet exit
+                            else //if no exit order 
                             {
                                 var order = await FlyerAPI2.sendChiledOrderAsync("SELL", ask_min - 1, holding_size[i], 1);
-                                addOrder(DateTime.Now, ask_min - 1, holding_size[i], order.order_id, "ACTIVE", "SELL");
-                                takeLog("PirceTracingOrder - entry sell order " + (ask_min - 1).ToString() + " x " + order_lot[i]);
+                                if (order.order_id != "")
+                                {
+                                    addOrder(DateTime.Now, ask_min - 1, holding_size[i], order.order_id, "ACTIVE", "SELL");
+                                    takeLog("PirceTracingOrder - entry sell order " + (ask_min - 1).ToString() + " x " + holding_size[i]);
+                                    Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("PirceTracingOrder - ordered sell @" + (ask_min - 1)); }));
+                                }
                             }
                         }
                         else if (holding_side[i] == "SHORT") //holding short position
@@ -210,22 +222,32 @@ namespace FlyerTrading
                             {
                                 if (order_price[index] <= bid_max)
                                 {
-                                    await FlyerAPI2.cancelChildOrdersAsync(holding_acceptance_id[i]);
-                                    removeOrder(index);
-                                    takeLog("PirceTracingOrder - cancelled buy order " + order_price[i] + " x " + order_lot[i]);
-                                    Form1.Form1Instance.addListBox2("PirceTracingOrder - cancelled buy order, id=" + holding_acceptance_id[i]);
-                                    var order = await FlyerAPI2.sendChiledOrderAsync("BUY", bid_max + 1, holding_size[i], 1);
-                                    addOrder(DateTime.Now, bid_max + 1, holding_size[i], order.order_id, "ACTIVE", "BUY");
-                                    takeLog("PirceTracingOrder - entry buy order " + (bid_max + 1).ToString() + " x " + order_lot[i]);
-                                    Form1.Form1Instance.addListBox2("PirceTracingOrder - ordered sell @" + (ask_min - 1));
+                                    var res_cancel = await FlyerAPI2.cancelChildOrdersAsync(order_id[index]);
+                                    if (res_cancel != "error")
+                                    {
+                                        takeLog("PirceTracingOrder - cancelled buy order " + order_price[index] + " x " + order_lot[index]);
+                                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("PirceTracingOrder - cancelled buy order : " + order_price[index] + " x " + order_lot[index]); }));
+                                        removeOrder(index);
+                                        var order = await FlyerAPI2.sendChiledOrderAsync("BUY", bid_max + 1, holding_size[i], 1);
+                                        if (order.order_id != "")
+                                        {
+                                            addOrder(DateTime.Now, bid_max + 1, holding_size[i], order.order_id, "ACTIVE", "BUY");
+                                            takeLog("PirceTracingOrder - entry buy order " + (bid_max + 1).ToString() + " x " + holding_size[i]);
+                                            Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("PirceTracingOrder - ordered buy @" + (bid_max + 1)); }));
+                                        }
+                                    }
                                     break;
                                 }
                             }
                             else //exit order it not yet exit
                             {
                                 var order = await FlyerAPI2.sendChiledOrderAsync("BUY", bid_max + 1, holding_size[i], 1);
-                                addOrder(DateTime.Now, bid_max + 1, holding_size[i], order.order_id, "ACTIVE", "BUY");
-                                takeLog("PirceTracingOrder - entry buy order " + (bid_max + 1).ToString() + " x " + order_lot[i]);
+                                if (order.order_id != "")
+                                {
+                                    addOrder(DateTime.Now, bid_max + 1, holding_size[i], order.order_id, "ACTIVE", "BUY");
+                                    takeLog("PirceTracingOrder - entry buy order " + (bid_max + 1).ToString() + " x " + holding_size[i]);
+                                    Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("PirceTracingOrder - ordered buy @" + (bid_max + 1)); }));
+                                }
                             }
                         }
                     }
@@ -233,7 +255,7 @@ namespace FlyerTrading
                 await checkExecutionAndUpdateOrders();
             } while (holding_size.Count > 0);
             takeLog("Completed exit price tracing order");
-            Form1.Form1Instance.addListBox2("Completed exit price tracing order");
+            Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("Completed exit price tracing order"); }));
             return res;
         }
 
@@ -249,9 +271,25 @@ namespace FlyerTrading
                     addHolding(execution[0].price, execution[0].child_order_accesptance_id, execution[0].size, execution[0].side);
                     removeOrder(i);
                     takeLog("executed "+execution[0].side + " for "+execution[0].price+" x "+execution[0].size);
-                    Form1.Form1Instance.addListBox2("executed " + execution[0].side + " for " + execution[0].price + " x " + execution[0].size);
+                    Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("executed " + execution[0].side + " for " + execution[0].price + " x " + execution[0].size); }));
                 }
             }
+            return res;
+        }
+
+        public async Task<string> updateCurrentPositions()
+        {
+            var res = "";
+            holding_acceptance_id = new List<string>();
+            holding_price = new List<double>();
+            
+
+            var positions = await FlyerAPI2.getPositionsAsync();
+            foreach(var v in positions)
+            {
+               // if(holding_acceptance_id.Contains(v.)
+            }
+
             return res;
         }
     }

@@ -24,6 +24,7 @@ namespace FlyerTrading
                 return current_board;
         }
 
+
         public static async void startBoardUpdate()
         {
             initialize();

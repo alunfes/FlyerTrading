@@ -50,28 +50,39 @@ namespace FlyerTrading
             initialize();
             entry_spread = entry_spread_width;
             order_size = size;
+            var ac = new Account();
+            
 
+            await Task.Delay(3000);
             while (SystemFlg.getMMFlg())
             {
                 await Task.Run(async () =>
                 {
                     if (FlyerAPI2.getApiAccessProhibition() == false)
                     {
-                        //var tdd = strategy(account ac)
-                        //if(tdd.position == "BUY" || "SELL")
-                        //else if(tdd.position == "Cancel")
-                        //else if(tdd.position == "Cencel_ALL")
-                        //else if(tdd.position == "ExitPriceTracingOrder")
-                        //FlyerAPI2.sendChiledOrderAsync()
+                        await MMStrategy(ac);
+
+                        string line = "";
+                        for (int i = 0; i < ac.holding_acceptance_id.Count; i++)
+                            line += ac.holding_side[i] + ":" + ac.holding_size[i] + "@" + ac.holding_price[i] + ", ";
+                        Form1.Form1Instance.Invoke((Action)(() => 
+                        {
+                            Form1.Form1Instance.setLabel5(line);
+                        }));
                     }
                     else
                     {
-                        Form1.Form1Instance.setLabel4("api prohibited");
+                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.setLabel4("api prohibited"); }));
                         await Task.Delay(1000);
                     }
                     return 0;
                 });
             }
+
+            Form1.Form1Instance.addListBox2("Finishing MMBot");
+            await ac.cancelAllOrders();
+            await ac.checkExecutionAndUpdateOrders();
+            await ac.startExitPriceTracingOrder();
 
             Form1.Form1Instance.addListBox2("Finished MMBot");
         }
@@ -83,65 +94,74 @@ namespace FlyerTrading
             current_order_ids = new List<string>();
             current_orders = new List<ChildOrderData>();
             num_log = 0;
+            entry_spread = 999999;
         }
 
         private static async Task<string> MMStrategy(Account ac)
         {
             string res = "";
-
+            
             var board = BoardDataUpdate.getCurrentBoard();
-            var bids = board.Bids.Select(x => x.Price).ToList();
-            var asks = board.Asks.Select(x => x.Price).ToList();
-
-            double bid_max = bids.Max();
-            double ask_min = asks.Min();
-
-            if (ac.holding_acceptance_id.Count == 0 && ac.order_id.Count == 0) //no positions, no orders
+            if (board.Asks.Length > 0)
             {
-                if (board.spread >= entry_spread)
-                {
-                    var sell_order = await ac.entry(ask_min - 1, order_size, "SELL");
-                    Form1.Form1Instance.addListBox2("ordered sell @" + (ask_min - 1));
-                    var buy_order = await ac.entry(bid_max + 1, order_size, "BUY");
-                    Form1.Form1Instance.addListBox2("ordered buy @" + bid_max + 1);
+                var bids = board.Bids.Select(x => x.Price).ToList();
+                var asks = board.Asks.Select(x => x.Price).ToList();
 
-                }
-                else if (current_positions.Count == 0 && current_orders.Count > 0) //no positions but some orders
+                double bid_max = bids.Max();
+                double ask_min = asks.Min();
+
+                await ac.checkExecutionAndUpdateOrders();
+                if (ac.holding_acceptance_id.Count == 0 && ac.order_id.Count == 0) //no positions, no orders
                 {
-                    if (board.spread < entry_spread)
+                    if (board.spread >= entry_spread)
                     {
-                        await ac.cancelAllOrders();
+                        var sell_order = await ac.entry(ask_min - 1, order_size, "SELL");
+                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered sell @" + (ask_min - 1)); }));
+                        var buy_order = await ac.entry(bid_max + 1, order_size, "BUY");
+                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered buy @" + bid_max + 1); }));
+
                     }
-                    else
+                    else if (current_positions.Count == 0 && current_orders.Count > 0) //no positions but some orders
                     {
-                        for(int i=0; i<ac.order_dt.Count; i++)
+                        if (board.spread < entry_spread)
                         {
-                            if (ac.order_side[i] == "BUY")
+                            await ac.cancelAllOrders();
+                        }
+                        else
+                        {
+                            for (int i = 0; i < ac.order_dt.Count; i++)
                             {
-                                if (ac.order_price[i] <= bid_max)
+                                if (ac.order_side[i] == "BUY")
                                 {
-                                    await ac.cancelOrder(i);
-                                    Form1.Form1Instance.addListBox2("cancelled buy order, id=" + v.child_order_acceptance_id);
-                                    await FlyerAPI2.sendChiledOrderAsync("BUY", bid_max + 1, order_size, 1);
-                                    Form1.Form1Instance.addListBox2("ordered buy @" + (bid_max + 1));
+                                    if (ac.order_price[i] <= bid_max)
+                                    {
+                                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("cancelled buy order, id=" + ac.order_id[i]); }));
+                                        await ac.cancelOrder(i);
+                                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered buy @" + (bid_max + 1)); }));
+                                        await FlyerAPI2.sendChiledOrderAsync("BUY", bid_max + 1, ac.holding_size[i], 1);
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                if (v.price >= ask_min)
+                                else
                                 {
-                                    await FlyerAPI2.cancelChildOrdersAsync(v.child_order_acceptance_id);
-                                    Form1.Form1Instance.addListBox2("cancelled sell order, id=" + v.child_order_acceptance_id);
-                                    await FlyerAPI2.sendChiledOrderAsync("SELL", ask_min - 1, order_size, 1);
-                                    Form1.Form1Instance.addListBox2("ordered sell @" + (ask_min - 1));
-                                    res = "";
+                                    if (ac.order_price[i] >= ask_min)
+                                    {
+                                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("cancelled sell order, id=" + ac.order_id[i]); }));
+                                        await FlyerAPI2.cancelChildOrdersAsync(ac.order_id[i]);
+                                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered sell @" + (ask_min - 1)); }));
+                                        await FlyerAPI2.sendChiledOrderAsync("SELL", ask_min - 1, order_size, 1);
+                                        res = "";
+                                    }
                                 }
                             }
                         }
                     }
+                    else if(ac.holding_acceptance_id.Count > 0)//holding positions, and orders
+                    {
+                        var com = await ac.startExitPriceTracingOrder();
+                        res = "completed exit price tracing order";
+                    }
                 }
             }
-
             return res;
         }
 

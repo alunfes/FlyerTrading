@@ -52,7 +52,7 @@ namespace FlyerTrading
                         if ((num_private_called - num_private_minit[0]) > 150 || (num_public_called + num_private_called - num_public_minit[0] - num_private_minit[0]) > 450)
                         {
                             setApiAccessProhibition(true);
-
+                            //Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.setLabel7("API Access Prohibited"); }));
                         }
                         else
                             setApiAccessProhibition(false);
@@ -183,6 +183,8 @@ namespace FlyerTrading
 
 
             var res = JsonConvert.DeserializeObject<List<ExecutionData>>(await getFuncAsync(method, path, query));
+            if (res == null)
+                res = new List<ExecutionData>();
             addNumPublicCalled();
             return res;
         }
@@ -232,6 +234,8 @@ namespace FlyerTrading
             string jsonBody = (body == null) ? "" : JsonConvert.SerializeObject(body);
 
             var res = JsonConvert.DeserializeObject<OrderData>(await postFuncAsync(method, path, query, jsonBody));
+            if (res == null)
+                res = new OrderData();
             addNumPrivateCalled();
             return res;
         }
@@ -259,7 +263,7 @@ namespace FlyerTrading
                 }
                 catch(TaskCanceledException e)
                 {
-                    System.Diagnostics.Debug.WriteLine(e.Message);
+                    System.Diagnostics.Debug.WriteLine("FlyerAPI2 - "+e.Message);
                 }
                 return response;
             }
@@ -291,7 +295,8 @@ namespace FlyerTrading
                 }
                 catch (TaskCanceledException e)
                 {
-                    System.Diagnostics.Debug.WriteLine(e.Message);
+                    System.Diagnostics.Debug.WriteLine("FlyerAPI2 - " + e.Message);
+                    response = "error";
                 }
 
                 return response;

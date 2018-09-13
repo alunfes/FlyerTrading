@@ -65,6 +65,8 @@
             this.buttonStartMMBot = new System.Windows.Forms.Button();
             this.buttonStopMMBot = new System.Windows.Forms.Button();
             this.buttonGetExecutionsId = new System.Windows.Forms.Button();
+            this.buttonExitAll = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -333,7 +335,7 @@
             // 
             // buttonStartMasterThread
             // 
-            this.buttonStartMasterThread.Location = new System.Drawing.Point(969, 172);
+            this.buttonStartMasterThread.Location = new System.Drawing.Point(1152, 172);
             this.buttonStartMasterThread.Name = "buttonStartMasterThread";
             this.buttonStartMasterThread.Size = new System.Drawing.Size(179, 75);
             this.buttonStartMasterThread.TabIndex = 26;
@@ -343,7 +345,7 @@
             // 
             // buttonStopMasterThread
             // 
-            this.buttonStopMasterThread.Location = new System.Drawing.Point(969, 262);
+            this.buttonStopMasterThread.Location = new System.Drawing.Point(1152, 262);
             this.buttonStopMasterThread.Name = "buttonStopMasterThread";
             this.buttonStopMasterThread.Size = new System.Drawing.Size(179, 75);
             this.buttonStopMasterThread.TabIndex = 27;
@@ -411,12 +413,34 @@
             this.buttonGetExecutionsId.UseVisualStyleBackColor = true;
             this.buttonGetExecutionsId.Click += new System.EventHandler(this.buttonGetExecutionsId_Click);
             // 
+            // buttonExitAll
+            // 
+            this.buttonExitAll.Location = new System.Drawing.Point(691, 262);
+            this.buttonExitAll.Name = "buttonExitAll";
+            this.buttonExitAll.Size = new System.Drawing.Size(179, 75);
+            this.buttonExitAll.TabIndex = 34;
+            this.buttonExitAll.Text = "exit all";
+            this.buttonExitAll.UseVisualStyleBackColor = true;
+            this.buttonExitAll.Click += new System.EventHandler(this.buttonExitAll_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(904, 172);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(179, 75);
+            this.button1.TabIndex = 35;
+            this.button1.Text = "get position";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(2740, 1534);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonExitAll);
             this.Controls.Add(this.buttonGetExecutionsId);
             this.Controls.Add(this.buttonStopMMBot);
             this.Controls.Add(this.buttonStartMMBot);
@@ -498,6 +522,8 @@
         private System.Windows.Forms.Button buttonStartMMBot;
         private System.Windows.Forms.Button buttonStopMMBot;
         private System.Windows.Forms.Button buttonGetExecutionsId;
+        private System.Windows.Forms.Button buttonExitAll;
+        private System.Windows.Forms.Button button1;
     }
 }
 

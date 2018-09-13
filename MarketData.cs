@@ -15,12 +15,9 @@ namespace FlyerTrading
             MarketDataLog.initialize();
             //BoardDataUpdate.getCurrentBoard();
             BoardDataUpdate.startBoardUpdate();
-            DBWriter.startDBWriter();
-
             marketDataThread();
-
-            //Thread th = new Thread(marketDataThread);
-            //th.Start();
+            DBWriter.startDBWriter();
+            //System.Diagnostics.Debug.WriteLine("kita2");
         }
 
         private async static void marketDataThread()

@@ -25,6 +25,8 @@ namespace FlyerTrading
             start_dt = new DateTime();
             start_dt = DateTime.Now;
 
+            FlyerAPI2.startFlyerAPIMonitoring();
+
             while (SystemFlg.getMasterFlg())
             {
                 await Task.Run(async () =>
