@@ -68,10 +68,16 @@ namespace FlyerTrading
                         string line = "";
                         for (int i = 0; i < ac.holding_side.Count; i++)
                             line += ac.holding_side[i] + ":" + ac.holding_size[i] + "@" + ac.holding_price[i] + ", ";
+
+                        string line2 = "";
+                        for (int i = 0; i < ac.order_dt.Count; i++)
+                            line2 += ac.order_side[i] + " - " + ac.order_lot[i] + "@" + ac.order_price[i] + ", ";
+
                         Form1.Form1Instance.Invoke((Action)(() =>
                         {
                             Form1.Form1Instance.setLabel5(line);
-                            Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.setLabel4("api ok"); }));
+                            Form1.Form1Instance.setLabel4("num trade=" + ac.num_trade);
+                            Form1.Form1Instance.setLabel6(line2);
                         }));
                     }
                     else
@@ -82,12 +88,14 @@ namespace FlyerTrading
                 }
             });
 
-            Form1.Form1Instance.addListBox2("Finishing MMBot");
+            Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("Finishing MMBot"); }));
             await ac.cancelAllOrders();
             await ac.checkExecutionAndUpdateOrders();
             await ac.startExitPriceTracingOrder();
 
-            Form1.Form1Instance.addListBox2("Finished MMBot");
+            Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("Finished MMBot"); }));
+
+            ac.displayAllLog();
 
             return res;
         }
@@ -128,52 +136,52 @@ namespace FlyerTrading
                             Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered buy @" + (bid_max + 1)); }));
 
                     }
-                    else if (ac.holding_side.Count == 0 && ac.order_id.Count > 0) //no positions but some orders
+                }
+                else if (ac.holding_side.Count == 0 && ac.order_id.Count > 0) //no positions but some orders
+                {
+                    if (board.spread < entry_spread)
                     {
-                        if (board.spread < entry_spread)
+                        await ac.cancelAllOrders();
+                    }
+                    else
+                    {
+                        for (int i = 0; i < ac.order_dt.Count; i++)
                         {
-                            await ac.cancelAllOrders();
-                        }
-                        else
-                        {
-                            for (int i = 0; i < ac.order_dt.Count; i++)
+                            if (ac.order_side[i] == "BUY")
                             {
-                                if (ac.order_side[i] == "BUY")
+                                if (ac.order_price[i] <= bid_max)
                                 {
-                                    if (ac.order_price[i] <= bid_max)
+                                    double size = ac.order_lot[i];
+                                    Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("cancelled buy order, id=" + ac.order_id[i]); }));
+                                    var res_cancel = await ac.cancelOrder(i);
+                                    if (res_cancel != "error")
                                     {
-                                        double size = ac.order_lot[i];
-                                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("cancelled buy order, id=" + ac.order_id[i]); }));
-                                        var res_cancel = await ac.cancelOrder(i);
-                                        if (res_cancel != "error")
-                                        {
-                                            Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered buy @" + (bid_max + 1)); }));
-                                            await ac.entry(bid_max + 1, size, "BUY");
-                                        }
+                                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered buy @" + (bid_max + 1)); }));
+                                        await ac.entry(bid_max + 1, size, "BUY");
                                     }
                                 }
-                                else
+                            }
+                            else
+                            {
+                                if (ac.order_price[i] >= ask_min)
                                 {
-                                    if (ac.order_price[i] >= ask_min)
+                                    double size = ac.order_lot[i];
+                                    Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("cancelled sell order, id=" + ac.order_id[i]); }));
+                                    var res_cancel = await ac.cancelOrder(i);
+                                    if (res_cancel != "error")
                                     {
-                                        double size = ac.order_lot[i];
-                                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("cancelled sell order, id=" + ac.order_id[i]); }));
-                                        var res_cancel = await ac.cancelOrder(i);
-                                        if (res_cancel != "error")
-                                        {
-                                            Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered sell @" + (ask_min - 1)); }));
-                                            await ac.entry(ask_min - 1, size, "SELL");
-                                        }
+                                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered sell @" + (ask_min - 1)); }));
+                                        await ac.entry(ask_min - 1, size, "SELL");
                                     }
                                 }
                             }
                         }
                     }
-                    else if (ac.holding_side.Count > 0)//holding positions, and orders
-                    {
-                        var com = await ac.startExitPriceTracingOrder();
-                        res = "completed exit price tracing order";
-                    }
+                }
+                else if (ac.holding_side.Count > 0)//holding positions, and orders
+                {
+                    var com = await ac.startExitPriceTracingOrder();
+                    res = "completed exit price tracing order";
                 }
             }
             return res;

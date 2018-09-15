@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace FlyerTrading
 {
@@ -253,6 +254,7 @@ namespace FlyerTrading
                     await checkExecutionAndUpdateOrders();
                 } while (holding_size.Count > 0);
             });
+
             takeLog("Completed exit price tracing order");
             Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("Completed exit price tracing order"); }));
             return res;
@@ -290,6 +292,27 @@ namespace FlyerTrading
             }
             Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("initialized holding and update positions"); }));
             return res;
+        }
+
+
+        public void writeLog()
+        {
+            using (StreamWriter sw = new StreamWriter("./account log.csv", false, Encoding.Default))
+            {
+
+            }
+        }
+
+        public void displayAllLog()
+        {
+            var max = action_log.Keys.ToList().Max();
+            for(int i=0; i<=max;i++)
+            {
+                if(action_log.ContainsKey(i))
+                {
+                    Form1.Form1Instance.addListBox(action_log[i]);
+                }
+            }
         }
     }
 }

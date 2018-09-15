@@ -24,6 +24,12 @@ namespace FlyerTrading
             _pubnub = new Pubnub(config);
         }
 
+        public void unsubscribe()
+        {
+            _pubnub.Unsubscribe<string>()
+     .Channels(new string[] {TickerFxBtcJpy,boardFxBtcJpy,ExecutionsFxBtcJpy})
+     .Execute();
+        }
 
         public void Subscribe<T>(string channel, Action<T> onReceive, Action<string> onConnect, Action<string, Exception> onError)
         {
@@ -73,6 +79,7 @@ namespace FlyerTrading
             _pubnub.Subscribe<string>()
                 .Channels(new[] { channel })
                 .Execute();
+
         }
     }
 }

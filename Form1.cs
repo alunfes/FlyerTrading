@@ -251,7 +251,7 @@ namespace FlyerTrading
             Parallel.Invoke(
                 () => MasterThread.startMasterThread(),
                 () => MarketData.startMarketData(),
-            () => MMbot.startMMBot(200, 0.01)
+            () => MMbot.startMMBot(100, 0.01)
             );
         }
 

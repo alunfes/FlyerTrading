@@ -40,6 +40,7 @@ namespace FlyerTrading
                     Form1.Form1Instance.setLabel2("num board data log=" + MarketDataLog.getNumBoardData().ToString());
                 }));
             }
+            api.unsubscribe();
         }
         
         private static void OnConnect(string message)
