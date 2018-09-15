@@ -43,31 +43,35 @@ namespace FlyerTrading
 
 
 
-        public async static void startMMBot(double entry_spread_width, double size)
+        public async static Task<string> startMMBot(double entry_spread_width, double size)
         {
+            string res = "";
+
             SystemFlg.setMMFlg(true);
 
             initialize();
             entry_spread = entry_spread_width;
             order_size = size;
             var ac = new Account();
-            
+
 
             await Task.Delay(3000);
-            while (SystemFlg.getMMFlg())
+
+            await Task.Run(async () =>
             {
-                await Task.Run(async () =>
+                while (SystemFlg.getMMFlg())
                 {
                     if (FlyerAPI2.getApiAccessProhibition() == false)
                     {
                         await MMStrategy(ac);
 
                         string line = "";
-                        for (int i = 0; i < ac.holding_acceptance_id.Count; i++)
+                        for (int i = 0; i < ac.holding_side.Count; i++)
                             line += ac.holding_side[i] + ":" + ac.holding_size[i] + "@" + ac.holding_price[i] + ", ";
-                        Form1.Form1Instance.Invoke((Action)(() => 
+                        Form1.Form1Instance.Invoke((Action)(() =>
                         {
                             Form1.Form1Instance.setLabel5(line);
+                            Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.setLabel4("api ok"); }));
                         }));
                     }
                     else
@@ -75,9 +79,8 @@ namespace FlyerTrading
                         Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.setLabel4("api prohibited"); }));
                         await Task.Delay(1000);
                     }
-                    return 0;
-                });
-            }
+                }
+            });
 
             Form1.Form1Instance.addListBox2("Finishing MMBot");
             await ac.cancelAllOrders();
@@ -85,6 +88,8 @@ namespace FlyerTrading
             await ac.startExitPriceTracingOrder();
 
             Form1.Form1Instance.addListBox2("Finished MMBot");
+
+            return res;
         }
 
         private static void initialize()
@@ -100,7 +105,7 @@ namespace FlyerTrading
         private static async Task<string> MMStrategy(Account ac)
         {
             string res = "";
-            
+
             var board = BoardDataUpdate.getCurrentBoard();
             if (board.Asks.Length > 0)
             {
@@ -111,17 +116,19 @@ namespace FlyerTrading
                 double ask_min = asks.Min();
 
                 await ac.checkExecutionAndUpdateOrders();
-                if (ac.holding_acceptance_id.Count == 0 && ac.order_id.Count == 0) //no positions, no orders
+                if (ac.holding_side.Count == 0 && ac.order_id.Count == 0) //no positions, no orders
                 {
                     if (board.spread >= entry_spread)
                     {
                         var sell_order = await ac.entry(ask_min - 1, order_size, "SELL");
-                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered sell @" + (ask_min - 1)); }));
+                        if (sell_order.order_id != "")
+                            Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered sell @" + (ask_min - 1)); }));
                         var buy_order = await ac.entry(bid_max + 1, order_size, "BUY");
-                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered buy @" + bid_max + 1); }));
+                        if (buy_order.order_id != "")
+                            Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered buy @" + (bid_max + 1)); }));
 
                     }
-                    else if (current_positions.Count == 0 && current_orders.Count > 0) //no positions but some orders
+                    else if (ac.holding_side.Count == 0 && ac.order_id.Count > 0) //no positions but some orders
                     {
                         if (board.spread < entry_spread)
                         {
@@ -135,27 +142,34 @@ namespace FlyerTrading
                                 {
                                     if (ac.order_price[i] <= bid_max)
                                     {
+                                        double size = ac.order_lot[i];
                                         Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("cancelled buy order, id=" + ac.order_id[i]); }));
-                                        await ac.cancelOrder(i);
-                                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered buy @" + (bid_max + 1)); }));
-                                        await FlyerAPI2.sendChiledOrderAsync("BUY", bid_max + 1, ac.holding_size[i], 1);
+                                        var res_cancel = await ac.cancelOrder(i);
+                                        if (res_cancel != "error")
+                                        {
+                                            Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered buy @" + (bid_max + 1)); }));
+                                            await ac.entry(bid_max + 1, size, "BUY");
+                                        }
                                     }
                                 }
                                 else
                                 {
                                     if (ac.order_price[i] >= ask_min)
                                     {
+                                        double size = ac.order_lot[i];
                                         Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("cancelled sell order, id=" + ac.order_id[i]); }));
-                                        await FlyerAPI2.cancelChildOrdersAsync(ac.order_id[i]);
-                                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered sell @" + (ask_min - 1)); }));
-                                        await FlyerAPI2.sendChiledOrderAsync("SELL", ask_min - 1, order_size, 1);
-                                        res = "";
+                                        var res_cancel = await ac.cancelOrder(i);
+                                        if (res_cancel != "error")
+                                        {
+                                            Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered sell @" + (ask_min - 1)); }));
+                                            await ac.entry(ask_min - 1, size, "SELL");
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                    else if(ac.holding_acceptance_id.Count > 0)//holding positions, and orders
+                    else if (ac.holding_side.Count > 0)//holding positions, and orders
                     {
                         var com = await ac.startExitPriceTracingOrder();
                         res = "completed exit price tracing order";
@@ -293,7 +307,7 @@ namespace FlyerTrading
                             }
                             else
                             {
-                                await FlyerAPI2.sendChiledOrderAsync("BUY", bid_max+1, v.size, 1);
+                                await FlyerAPI2.sendChiledOrderAsync("BUY", bid_max + 1, v.size, 1);
                                 Form1.Form1Instance.addListBox2("ordered buy @" + (bid_max + 1));
                             }
                         }

@@ -12,6 +12,7 @@ namespace FlyerTrading
         public static void initialize()
         {
             executions_log = new List<Executions>();
+            execution_id_log = new List<string>();
             board_data_price_log = new List<double[]>();
             board_data_dt_log = new List<DateTime>();
             tick_log = new List<Tick>();
@@ -19,6 +20,7 @@ namespace FlyerTrading
         
         
         private static List<Executions> executions_log;
+        private static List<string> execution_id_log;
         private static object lockobj_executuons = new object();
 
         public static void addExecutionsData(List<Executions> data)
@@ -26,9 +28,16 @@ namespace FlyerTrading
             lock (lockobj_executuons)
             {
                 foreach (var v in data)
+                {
                     executions_log.Add(v);
+                    execution_id_log.Add(v.buy_child_order_acceptance_id);
+                    execution_id_log.Add(v.sell_child_order_acceptance_id);
+                }
                 if (executions_log.Count > SystemSettings.max_log_index)
+                {
                     executions_log.RemoveRange(0, 100000);
+                    execution_id_log.RemoveRange(0, 100000);
+                }
             }
         }
         public static List<Executions> getExecutionsData()
@@ -38,6 +47,16 @@ namespace FlyerTrading
                 var res = new List<Executions>(executions_log);
                 executions_log = new List<Executions>();
                 return res;
+            }
+        }
+        public static bool getExecutionStatus(string acceptance_id)
+        {
+            lock(lockobj_executuons)
+            {
+                if (execution_id_log.Contains(acceptance_id))
+                    return true; //executed
+                else
+                    return false; //not executed
             }
         }
         public static int getNumExecutionsLog()

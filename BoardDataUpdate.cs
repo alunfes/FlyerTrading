@@ -29,9 +29,9 @@ namespace FlyerTrading
         {
             initialize();
 
-            while (SystemFlg.getMarketDataFlg())
+            await Task.Run(async () =>
             {
-                await Task.Run(async () =>
+                while (SystemFlg.getMarketDataFlg())
                 {
                     if (FlyerAPI2.getApiAccessProhibition() == false)
                     {
@@ -52,16 +52,15 @@ namespace FlyerTrading
                         }));
                     }
                     //await Task.Delay(0);
-                    return 0;
-                });
-            }
+                }
+            });
         }
 
         private static void initialize()
         {
             current_board = new BoardData();
         }
-        
+
 
         private static double calcBidAskDiff(double[] ask_p, double[] bid_p)
         {

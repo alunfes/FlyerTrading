@@ -67,6 +67,7 @@
             this.buttonGetExecutionsId = new System.Windows.Forms.Button();
             this.buttonExitAll = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.buttonCancelAllOrders = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -433,12 +434,23 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // buttonCancelAllOrders
+            // 
+            this.buttonCancelAllOrders.Location = new System.Drawing.Point(904, 262);
+            this.buttonCancelAllOrders.Name = "buttonCancelAllOrders";
+            this.buttonCancelAllOrders.Size = new System.Drawing.Size(179, 75);
+            this.buttonCancelAllOrders.TabIndex = 36;
+            this.buttonCancelAllOrders.Text = "cancel all order";
+            this.buttonCancelAllOrders.UseVisualStyleBackColor = true;
+            this.buttonCancelAllOrders.Click += new System.EventHandler(this.buttonCancelAllOrders_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(2740, 1534);
+            this.Controls.Add(this.buttonCancelAllOrders);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.buttonExitAll);
             this.Controls.Add(this.buttonGetExecutionsId);
@@ -524,6 +536,7 @@
         private System.Windows.Forms.Button buttonGetExecutionsId;
         private System.Windows.Forms.Button buttonExitAll;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonCancelAllOrders;
     }
 }
 

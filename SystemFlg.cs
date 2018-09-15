@@ -12,6 +12,7 @@ namespace FlyerTrading
         {
             marketdata_flg = false;
             dbwriter_flg = false;
+            mm_flg = false;
         }
 
         private static object lock_master = new object();

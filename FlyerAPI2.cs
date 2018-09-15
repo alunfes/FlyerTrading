@@ -141,7 +141,7 @@ namespace FlyerTrading
         {
             var method = "GET";
             var path = "/v1/me/getchildorders";
-            var constate = (state != "") ? "&child_order_state=" + state : "";
+            var constate = (state != "") ? ("&child_order_state=" + state) : "";
             var query = "?product_code=FX_BTC_JPY"+constate;
 
             var res = JsonConvert.DeserializeObject<List<ChildOrderData>>(await getFuncAsync(method, path, query));
@@ -178,7 +178,7 @@ namespace FlyerTrading
         {
             var method = "GET";
             var path = "/v1/me/getexecutions";
-            var id = "?child_order_acceptance_id="+acceptance_id;
+            var id = "&child_order_acceptance_id=" + acceptance_id;
             var query = "?product_code=FX_BTC_JPY"+id;
 
 
@@ -264,7 +264,9 @@ namespace FlyerTrading
                 catch(TaskCanceledException e)
                 {
                     System.Diagnostics.Debug.WriteLine("FlyerAPI2 - "+e.Message);
+                    response = "error";
                 }
+                System.Diagnostics.Debug.WriteLine(response);
                 return response;
             }
         }
