@@ -57,8 +57,9 @@ namespace FlyerTrading
         {
             Form1Instance.initializeListBox();
             var res5 = await FlyerAPI2.getChildOrderAsync("ACTIVE");
+            //var res5 = await FlyerAPI2.getChildOrderAfterAsync("ACTIVE", "ff");
             foreach (var v in res5)
-                Form1Instance.addListBox(v.child_order_date + " - " + v.side + " - " + v.price + "*" + v.size + " - " + v.child_order_acceptance_id);
+                Form1Instance.addListBox(v.child_order_state+" - " +v.child_order_date + " - " + v.side + " - " + v.price + "*" + v.size + " - " + v.child_order_acceptance_id);
         }
 
         private async void buttonCancelOrder_Click(object sender, EventArgs e)
@@ -79,7 +80,7 @@ namespace FlyerTrading
         public string id = "";
         private async void buttonSendOrder_Click(object sender, EventArgs e)
         {
-            //if (SystemFlg.getMarketDataFlg() == false)
+            if (SystemFlg.getMarketDataFlg() == false)
             {
                 MarketData.startMarketData();
                 await Task.Delay(3000);
@@ -87,14 +88,20 @@ namespace FlyerTrading
             
 
             var board = await FlyerAPI2.getBoardAsync("FX_BTC_JPY");
-            var res = await FlyerAPI2.sendChiledOrderAsync("BUY", board.Asks.Select(x=>x.Price).ToList().Min()-1, 0.01, 1);
+            double price = board.Asks.Select(x => x.Price).ToList().Min() - 1;
+            
+            var res = await FlyerAPI2.sendChiledOrderAsync("SELL", price , 0.01, 1);
             if (res.order_id != "")
                 addListBox2("completed send order:"+res.order_id);
+
+            if(id=="")
+                id = res.order_id;
+
 
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
             sw.Start();
             bool flg = true;
-            int dotti = 0;
+            string dotti = "";
             while (flg)
             {
                 var exe = await FlyerAPI2.getExecutionsAcceptanceIDAsync(res.order_id);
@@ -104,13 +111,13 @@ namespace FlyerTrading
                     if (exe[0].child_order_accesptance_id == res.order_id)
                     {
                         flg = false;
-                        dotti = 1;
+                        dotti = "getExecutionsAcceptanceIDAsync";
                     }
                 }
                 if (MarketDataLog.getExecutionStatus(res.order_id))
                 {
                     flg = false;
-                    dotti = 2;
+                    dotti = "getExecutionStatus";
                 }
             }
 
@@ -120,9 +127,7 @@ namespace FlyerTrading
 
             SystemFlg.setMarketDataFlg(false);
             SystemFlg.setDBWriterFlg(false);
-            await Task.Delay(5000);
-
-
+            
             /*
             var board2 = await FlyerAPI2.getBoardAsync("FX_BTC_JPY");
             var res2 = await FlyerAPI2.sendChiledOrderAsync("SELL", board2.Asks.Select(x => x.Price).ToList().Max()-1, 0.01, 1);
@@ -131,16 +136,16 @@ namespace FlyerTrading
 
             var posi2 = await FlyerAPI2.getPositionsAsync();
             */
-
-            sw.Stop();
-            id = res.order_id;
-            Form1Instance.addListBox2(res.order_id + ":time="+sw.ElapsedMilliseconds);
         }
 
         private async void buttonExitAll_Click(object sender, EventArgs e)
         {
-            MarketData.startMarketData();
-            await Task.Delay(3000);
+            if (SystemFlg.getMarketDataFlg() == false)
+            {
+                MarketData.startMarketData();
+                MasterThread.startMasterThread();
+                await Task.Delay(3000);
+            }
 
             Account ac = new Account();
             await ac.updateCurrentPositions();
@@ -251,7 +256,7 @@ namespace FlyerTrading
             Parallel.Invoke(
                 () => MasterThread.startMasterThread(),
                 () => MarketData.startMarketData(),
-            () => MMbot.startMMBot(100, 0.01)
+            () => MMbot.startMMBot(50, 0.01)
             );
         }
 

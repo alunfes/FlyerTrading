@@ -36,6 +36,7 @@ namespace FlyerTrading
             [JsonProperty("size")]
             public double Size { get; set; }
         }
+        
     }
     /*
     [DataContract]

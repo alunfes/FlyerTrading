@@ -8,6 +8,7 @@ using System.Net.Http.Headers;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Security.Cryptography;
+using System.Diagnostics;
 
 namespace FlyerTrading
 {
@@ -98,7 +99,18 @@ namespace FlyerTrading
             var path = "/v1/getboard";
             var query = "?product_code=" + q;
 
-            var board = JsonConvert.DeserializeObject<BoardData>(await getFuncAsync(method, path, query));
+            var board = new BoardData();
+            try
+            {
+                var res = await getFuncAsync(method, path, query);
+                if(res!="error" && res != null)
+                    board = JsonConvert.DeserializeObject<BoardData>(res);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("gtBoardAsync - " + e);
+            }
+
             addNumPublicCalled();
             return board;
         }
@@ -144,7 +156,38 @@ namespace FlyerTrading
             var constate = (state != "") ? ("&child_order_state=" + state) : "";
             var query = "?product_code=FX_BTC_JPY"+constate;
 
-            var res = JsonConvert.DeserializeObject<List<ChildOrderData>>(await getFuncAsync(method, path, query));
+            var res = new List<ChildOrderData>();
+            try
+            {
+                res = JsonConvert.DeserializeObject<List<ChildOrderData>>(await getFuncAsync(method, path, query));
+            }
+            catch (Exception e)
+            {
+                res = new List<ChildOrderData>();
+                Debug.WriteLine("getChildOrderAsync - "+e);
+            }
+            addNumPrivateCalled();
+            return res;
+        }
+
+        public static async Task<List<ChildOrderData>> getChildOrderAfterAsync(string state, string after_id)
+        {
+            var method = "GET";
+            var path = "/v1/me/getchildorders";
+            var constate = (state != "") ? ("&child_order_state=" + state) : "";
+            var after = (after_id != "") ? ("&count=" + "10000") : ""; 
+            var query = "?product_code=FX_BTC_JPY"+after;
+
+            var res = new List<ChildOrderData>();
+            try
+            {
+                res = JsonConvert.DeserializeObject<List<ChildOrderData>>(await getFuncAsync(method, path, query));
+            }
+            catch (Exception e)
+            {
+                res = new List<ChildOrderData>();
+                Debug.WriteLine("getChildOrderAfterAsync - " + e);
+            }
             addNumPrivateCalled();
             return res;
         }
@@ -181,8 +224,15 @@ namespace FlyerTrading
             var id = "&child_order_acceptance_id=" + acceptance_id;
             var query = "?product_code=FX_BTC_JPY"+id;
 
-
-            var res = JsonConvert.DeserializeObject<List<ExecutionData>>(await getFuncAsync(method, path, query));
+            var res = new List<ExecutionData>();
+            try
+            {
+                res = JsonConvert.DeserializeObject<List<ExecutionData>>(await getFuncAsync(method, path, query));
+            }catch(Exception e)
+            {
+                res = new List<ExecutionData>();
+                Debug.WriteLine("getExecutionsAcceptanceIDAsync - "+e);
+            }
             if (res == null)
                 res = new List<ExecutionData>();
             addNumPublicCalled();
@@ -263,7 +313,7 @@ namespace FlyerTrading
                 }
                 catch(TaskCanceledException e)
                 {
-                    System.Diagnostics.Debug.WriteLine("FlyerAPI2 - "+e.Message);
+                    System.Diagnostics.Debug.WriteLine("FlyerAPI2 getFuncAsync - path=" +path +" : "+  e.Message);
                     response = "error";
                 }
                 System.Diagnostics.Debug.WriteLine(response);

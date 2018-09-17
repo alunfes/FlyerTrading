@@ -21,7 +21,7 @@ namespace FlyerTrading
 
         private static void initialize()
         {
-            if (File.Exists(SystemData.db_name)==false)
+            if (File.Exists(SystemData.db_name) == false)
             {
                 DBManager.createDB(SystemData.db_name);
                 DBManager.createTables();
@@ -30,21 +30,21 @@ namespace FlyerTrading
 
         private async static void dbWriterThread()
         {
-            while (SystemFlg.getDBWriterFlg())
+            await Task.Run(async () =>
             {
-                await Task.Run(async () =>
+                while (SystemFlg.getDBWriterFlg())
                 {
                     writeExecutionsData();
                     writeBoardData();
                     await Task.Delay(500);
-                });
-            }
+                }
+            });
         }
 
 
         private static void writeExecutionsData()
         {
-            if (MarketDataLog.getNumExecutionsLog() > 1000)
+            if (MarketDataLog.getNumExecutionsLog() > 10000)
             {
                 DBManager.insertExecutions(MarketDataLog.getExecutionsData());
             }
@@ -52,7 +52,7 @@ namespace FlyerTrading
 
         private static void writeBoardData()
         {
-            if (MarketDataLog.getNumBoardData() > 10)
+            if (MarketDataLog.getNumBoardData() > 100)
             {
                 DBManager.insertBoardData(MarketDataLog.getAllBoardData());
             }

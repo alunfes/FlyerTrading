@@ -36,20 +36,24 @@ namespace FlyerTrading
                     if (FlyerAPI2.getApiAccessProhibition() == false)
                     {
                         var board = await FlyerAPI2.getBoardAsync("FX_BTC_JPY");
-                        board.dt = DateTime.Now;
-                        var ask_p = board.Asks.Select(c => c.Price).ToArray();
-                        var bid_p = board.Bids.Select(c => c.Price).ToArray();
 
-                        var ask_min = ask_p.Min();
-                        var bid_max = bid_p.Max();
-
-                        board.spread = ask_min - bid_max;
-                        setCurrentBoard(board);
-                        MarketDataLog.addBoardData(board.dt, new double[] { bid_max, ask_min, board.spread });
-                        Form1.Form1Instance.Invoke((Action)(() =>
+                        if (board.MidPrice != 0)
                         {
-                            Form1.Form1Instance.setLabel3(board.spread.ToString());
-                        }));
+                            board.dt = DateTime.Now;
+                            var ask_p = board.Asks.Select(c => c.Price).ToArray();
+                            var bid_p = board.Bids.Select(c => c.Price).ToArray();
+
+                            var ask_min = ask_p.Min();
+                            var bid_max = bid_p.Max();
+
+                            board.spread = ask_min - bid_max;
+                            setCurrentBoard(board);
+                            MarketDataLog.addBoardData(board.dt, new double[] { bid_max, ask_min, board.spread });
+                            Form1.Form1Instance.Invoke((Action)(() =>
+                            {
+                                Form1.Form1Instance.setLabel3(board.spread.ToString());
+                            }));
+                        }
                     }
                     //await Task.Delay(0);
                 }

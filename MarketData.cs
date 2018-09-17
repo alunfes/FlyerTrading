@@ -32,7 +32,7 @@ namespace FlyerTrading
 
             while (SystemFlg.getMarketDataFlg())
             {
-                await Task.Delay(10);
+                await Task.Delay(300);
                 //Thread.Sleep(10);
                 Form1.Form1Instance.Invoke((Action)(() =>
                 {

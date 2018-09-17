@@ -57,6 +57,7 @@ namespace FlyerTrading
 
             await Task.Delay(3000);
 
+
             await Task.Run(async () =>
             {
                 while (SystemFlg.getMMFlg())
@@ -65,17 +66,21 @@ namespace FlyerTrading
                     {
                         await MMStrategy(ac);
 
-                        string line = "";
+                        /*string line = "";
                         for (int i = 0; i < ac.holding_side.Count; i++)
-                            line += ac.holding_side[i] + ":" + ac.holding_size[i] + "@" + ac.holding_price[i] + ", ";
+                            line += ac.holding_side[i] + ":" + ac.holding_size[i] + "@" + ac.holding_price[i] + ", ";*/
 
+                        
                         string line2 = "";
                         for (int i = 0; i < ac.order_dt.Count; i++)
                             line2 += ac.order_side[i] + " - " + ac.order_lot[i] + "@" + ac.order_price[i] + ", ";
 
+                        ac.takeLog("orders:"+line2);
+                        ac.takeLog("holdings:"+ ac.holding_ave_side + ", hold ave price=" + ac.holding_ave_price + " x " + ac.holding_total_size);
+
                         Form1.Form1Instance.Invoke((Action)(() =>
                         {
-                            Form1.Form1Instance.setLabel5(line);
+                            Form1.Form1Instance.setLabel5(ac.holding_ave_side+ ", hold ave price="+ac.holding_ave_price + " x " +ac.holding_total_size);
                             Form1.Form1Instance.setLabel4("num trade=" + ac.num_trade);
                             Form1.Form1Instance.setLabel6(line2);
                         }));
@@ -96,6 +101,7 @@ namespace FlyerTrading
             Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("Finished MMBot"); }));
 
             ac.displayAllLog();
+            ac.writeLog();
 
             return res;
         }
@@ -115,7 +121,7 @@ namespace FlyerTrading
             string res = "";
 
             var board = BoardDataUpdate.getCurrentBoard();
-            if (board.Asks.Length > 0)
+            //if (board.Asks.Length > 0)
             {
                 var bids = board.Bids.Select(x => x.Price).ToList();
                 var asks = board.Asks.Select(x => x.Price).ToList();
@@ -124,7 +130,7 @@ namespace FlyerTrading
                 double ask_min = asks.Min();
 
                 await ac.checkExecutionAndUpdateOrders();
-                if (ac.holding_side.Count == 0 && ac.order_id.Count == 0) //no positions, no orders
+                if (ac.holding_total_size== 0 && ac.order_id.Count == 0) //no positions, no orders
                 {
                     if (board.spread >= entry_spread)
                     {
@@ -135,13 +141,30 @@ namespace FlyerTrading
                         if (buy_order.order_id != "")
                             Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered buy @" + (bid_max + 1)); }));
 
+                        bool flg = true;
+                        while(flg)
+                        {
+                            var sell_status = MarketDataLog.getExecutionStatus(sell_order.order_id);
+                            var buy_status = MarketDataLog.getExecutionStatus(buy_order.order_id);
+                            if (sell_status && buy_status)
+                                flg = false;
+                            else if (sell_status && buy_status == false)
+                                await ac.startExitPriceTracingOrder();
+                            else if(sell_status ==false && buy_status)
+                                await ac.startExitPriceTracingOrder();
+                        }
                     }
                 }
-                else if (ac.holding_side.Count == 0 && ac.order_id.Count > 0) //no positions but some orders
+                else if (ac.holding_total_size == 0 && ac.order_id.Count > 0) //no positions but some orders
                 {
                     if (board.spread < entry_spread)
                     {
-                        await ac.cancelAllOrders();
+                        var res_cancel = await ac.cancelAllOrders();
+                        if(res_cancel!="error")
+                        {
+                            ac.takeLog("cancelled all orders");
+                            Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("cancelled all orders"); }));
+                        }
                     }
                     else
                     {
@@ -178,7 +201,7 @@ namespace FlyerTrading
                         }
                     }
                 }
-                else if (ac.holding_side.Count > 0)//holding positions, and orders
+                else if (ac.holding_total_size > 0)//holding positions, and orders
                 {
                     var com = await ac.startExitPriceTracingOrder();
                     res = "completed exit price tracing order";
