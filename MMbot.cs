@@ -134,6 +134,7 @@ namespace FlyerTrading
                 {
                     if (board.spread >= entry_spread)
                     {
+                        //entry for both of bid and ask
                         var sell_order = await ac.entry(ask_min - 1, order_size, "SELL");
                         if (sell_order.order_id != "")
                             Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered sell @" + (ask_min - 1)); }));
@@ -141,18 +142,19 @@ namespace FlyerTrading
                         if (buy_order.order_id != "")
                             Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered buy @" + (bid_max + 1)); }));
 
+                        //check execution and start exit price tracing when executed
                         bool flg = true;
-                        while(flg)
+                        do
                         {
-                            var sell_status = MarketDataLog.getExecutionStatus(sell_order.order_id);
-                            var buy_status = MarketDataLog.getExecutionStatus(buy_order.order_id);
-                            if (sell_status && buy_status)
+                            await ac.checkExecutionAndUpdateOrders();
+                            if (ac.holding_ave_side != "")
+                                await ac.startExitPriceTracingOrder();
+                            else if (BoardDataUpdate.getCurrentBoard().spread < entry_spread)
+                            {
+                                await ac.cancelAllOrders();
                                 flg = false;
-                            else if (sell_status && buy_status == false)
-                                await ac.startExitPriceTracingOrder();
-                            else if(sell_status ==false && buy_status)
-                                await ac.startExitPriceTracingOrder();
-                        }
+                            }
+                        } while (flg);
                     }
                 }
                 else if (ac.holding_total_size == 0 && ac.order_id.Count > 0) //no positions but some orders

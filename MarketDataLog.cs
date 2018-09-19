@@ -30,13 +30,13 @@ namespace FlyerTrading
                 foreach (var v in data)
                 {
                     executions_log.Add(v);
-                    execution_id_log.Add(v.buy_child_order_acceptance_id);
-                    execution_id_log.Add(v.sell_child_order_acceptance_id);
+                    //execution_id_log.Add(v.buy_child_order_acceptance_id);
+                    //execution_id_log.Add(v.sell_child_order_acceptance_id);
                 }
                 if (executions_log.Count > SystemSettings.max_log_index)
                 {
                     executions_log.RemoveRange(0, 100000);
-                    execution_id_log.RemoveRange(0, 100000);
+                    //execution_id_log.RemoveRange(0, 100000);
                 }
             }
         }
@@ -46,6 +46,14 @@ namespace FlyerTrading
             {
                 var res = new List<Executions>(executions_log);
                 executions_log = new List<Executions>();
+                return res;
+            }
+        }
+        public static List<Executions> getExecutionsDataRange(int last_ind)
+        {
+            lock (lockobj_executuons)
+            {
+                var res = new List<Executions>(executions_log.GetRange(last_ind, executions_log.Count-last_ind));
                 return res;
             }
         }
