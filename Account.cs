@@ -15,39 +15,81 @@ namespace FlyerTrading
         public double ave_pl { get; set; }
 
         /*Current Order Data*/
-        public List<DateTime> order_dt { get; set; }
-        public List<double> order_price { get; set; }
-        public List<double> order_lot { get; set; }
-        public List<string> order_id { get; set; }
-        public List<string> order_status { get; set; } //ordering, placed, executed, cancelled
-        public List<string> order_side { get; set; }
-        public int last_ind_marketdata { get; set; }
+        public List<order> current_orders { get; set; }
+        public bool cancelling { get; set; }
+        private object lockorder = new object();
+        public class order
+        {
+            public DateTime order_dt { get; set; }
+            public double order_price { get; set; }
+            public double order_lot { get; set; }
+            public string order_id { get; set; }
+            public string order_status { get; set; } //ordering, placed, executed, cancelled
+            public string order_side { get; set; }
+
+            public order()
+            {
+                order_id = "";
+                order_dt = new DateTime();
+                order_lot = new double();
+                order_status = "";
+                order_price = new double();
+                order_side = "";
+            }
+        }
         private void addOrder(DateTime dt, double price, double lot, string id, string status, string side)
         {
-            order_dt.Add(dt);
-            order_price.Add(price);
-            order_lot.Add(lot);
-            order_id.Add(id);
-            order_status.Add(status);
-            order_side.Add(side);
+            var ord = new order();
+            ord.order_dt=dt;
+            ord.order_price=price;
+            ord.order_lot=lot;
+            ord.order_id=id;
+            ord.order_status=status;
+            ord.order_side=side;
+            lock (lockorder)
+            {
+                current_orders.Add(ord);
+            }
         }
         private void removeOrder(int index)
         {
-            order_dt.RemoveAt(index);
-            order_price.RemoveAt(index);
-            order_lot.RemoveAt(index);
-            order_id.RemoveAt(index);
-            order_status.RemoveAt(index);
-            order_side.RemoveAt(index);
+            lock (lockorder)
+            {
+                current_orders.RemoveAt(index);
+            }
         }
         private void removeAllOrders()
         {
-            order_dt = new List<DateTime>();
-            order_price = new List<double>();
-            order_lot = new List<double>();
-            order_id = new List<string>();
-            order_status = new List<string>();
-            order_side = new List<string>();
+            lock (lockorder)
+            {
+                current_orders = new List<order>();
+            }
+        }
+        public List<order> getAllOrders()
+        {
+            lock (lockorder)
+                return current_orders;
+        }
+        private void updateOrderStatus(string status, string id)
+        {
+            lock (lockorder)
+            {
+                var index = current_orders.Select(x => x.order_id).ToList().IndexOf(id);
+                current_orders[index].order_status = status;
+            }
+        }
+        private void updateOrderSize(double size, string id)
+        {
+            lock(lockorder)
+            {
+                var index = current_orders.Select(x => x.order_id).ToList().IndexOf(id);
+                current_orders[index].order_lot= size;
+            }
+        }
+        private int getNumCurrentOrders()
+        {
+            lock (lockorder)
+                return current_orders.Count();
         }
 
         /*Holding Data*/
@@ -66,7 +108,6 @@ namespace FlyerTrading
 
             updateAveHolding(price, size, side);
         }
-
         private void updateAveHolding(double price, double size, string side)
         {
 
@@ -132,13 +173,14 @@ namespace FlyerTrading
                     total_pl += (price - holding_ave_price) * size;
                 }
             }
+            Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("holding_ave_side="+holding_ave_side + ", holding total size="+holding_total_size+", hodling ave price="+holding_ave_price); }));
         }
-
         private void removeHolding(int index)
         {
             holding_price.RemoveAt(index);
             holding_side.RemoveAt(index);
             holding_size.RemoveAt(index);
+            Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("removed holding"); }));
         }
 
         /*Log*/
@@ -152,13 +194,16 @@ namespace FlyerTrading
         private double price_tracing_order_target_lot { get; set; }
         public int price_tracing_order_exit_sec { get; set; } //sec to exit exiting order and place a new order
 
+        public int last_ind_marketdata { get; set; }
+
+
 
         public Account()
         {
             initialzie();
         }
 
-        private void initialzie()
+        private async void initialzie()
         {
             num_trade = 0;
             total_pl = 0;
@@ -168,13 +213,10 @@ namespace FlyerTrading
             action_dt = new Dictionary<long, DateTime>();
             num_actions = 0;
 
-            order_id = new List<string>();
-            order_dt = new List<DateTime>();
-            order_lot = new List<double>();
-            order_status = new List<string>();
-            order_price = new List<double>();
-            order_side = new List<string>();
-            last_ind_marketdata=0;
+            current_orders = new List<order>();
+            cancelling = false;
+            
+            last_ind_marketdata = 0;
 
             price_tracing_order = false;
             price_tracing_order_exit_sec = 3;
@@ -186,8 +228,69 @@ namespace FlyerTrading
             holding_ave_price = 0;
             holding_ave_side = "";
             holding_total_size = 0;
-        }
 
+            await checkCancel();
+        }
+        private async Task<string> checkCancel()
+        {
+            await Task.Run(async () =>
+            {
+                while (SystemFlg.getMMFlg())
+                {
+                    if (cancelling)
+                    {
+                        var order = await FlyerAPI2.sendChiledOrderAsync("BUY", MarketDataLog.getLastExecutionsData().price - 100000, 0.01, 1); //send dummy order
+                        var ord_dt = DateTime.Now;
+                        if (order.order_id.Contains("JRF"))
+                        {
+                            bool flg = true;
+                            do
+                            {
+                                var orders = await FlyerAPI2.getChildOrderAsync("ACTIVE");//get current active orders
+                                var dt = DateTime.Now;
+                                var orders_id = orders.Select(x => x.child_order_acceptance_id).ToList();
+                                if (orders_id.Contains(order.order_id)) //when the dummy order is in the active order list
+                                {
+                                    //treat all cancelling status orders not exist in order list as properlly cancelled
+                                    var ord = getAllOrders();
+                                    int num_cancelling = 0;
+                                    for (int i = 0; i < ord.Count; i++)
+                                    {
+                                        if (ord[i].order_status == "CANCELLING" && dt > ord[i].order_dt)
+                                        {
+                                            num_cancelling++;
+                                            //if (orders_id.Contains(ord[i].order_id))//
+                                            {
+                                                takeLog(DateTime.Now+": cancelled " + ord[i].order_side + ", price=" + ord[i].order_price + " x " + ord[i].order_lot);
+                                                Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("cancelled " + ord[i].order_side + ", price=" + ord[i].order_price + " x " + ord[i].order_lot); }));
+                                                removeOrder(i);
+                                            }
+                                        }
+                                    }
+                                    if (num_cancelling == 0)//cancel dummy order and stop current checking
+                                    {
+                                        string res = "error";
+                                        do
+                                        {
+                                            res = await FlyerAPI2.cancelChildOrdersAsync(order.order_id);
+                                            flg = false;
+                                            cancelling = false;
+                                        } while (res == "error");
+                                    }
+                                    else if((DateTime.Now - ord_dt).Seconds > 60)
+                                    {
+                                        flg = false;
+                                    }
+                                }
+                                await Task.Delay(500);
+                            } while (flg);
+                        }
+                    }
+                }
+            });
+            return "";
+        }
+        
         public void takeLog(string log)
         {
             action_log.Add(num_actions, log);
@@ -198,26 +301,33 @@ namespace FlyerTrading
         public async Task<OrderData> entry(double p, double size, string order)
         {
             var res = await FlyerAPI2.sendChiledOrderAsync(order, p, size, 10);
-            if (res.order_id == "")
+            if (res.order_id.Contains("JRF"))
             {
-                takeLog("failed new entry, price=" + p);
+                addOrder(DateTime.Now, p, size, res.order_id, "ACTIVE", order);
+                Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("new entry for " + order + ": price=" + p + ": size=" + size + ": id=" + res.order_id); }));
+                takeLog(DateTime.Now + ": new entry for " + order + ": price=" + p + ": size=" + size + ": id=" + res.order_id);
             }
             else
             {
-                addOrder(DateTime.Now, p, size, res.order_id, "ACTIVE", order);
-                takeLog("new entry for " + order + ": price=" + p + ": size=" + size + ": id=" + res.order_id);
+                takeLog("failed new entry, price=" + p);
+                Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("failed new entry for " + order + ": price=" + p + ": size=" + size + ": id=" + res.order_id); }));
             }
             return res;
         }
 
-        public async Task<string> cancelOrder(int order_index)
+        public async Task<string> cancelOrder(string id)
         {
-            var res = await FlyerAPI2.cancelChildOrdersAsync(order_id[order_index]);
+            var res = await FlyerAPI2.cancelChildOrdersAsync(id);
             if (res == "")
             {
-                takeLog("cancelled " + order_side[order_index] + " for " + order_price[order_index] + " x " + order_lot[order_index] + " id=" + order_id[order_index]);
-                order_status[order_index] = "CANCELLING";
-                //removeOrder(order_index);
+                var ord = getAllOrders().Where(x=>x.order_id ==id).ToList();
+                if (ord.Count == 0)
+                {
+                    takeLog(DateTime.Now + ": cancelling " + ord[0].order_side + " for " + ord[0].order_price + " x " + ord[0].order_lot + " id=" + ord[0].order_id);
+                    Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("cancelling " + ord[0].order_side + " for " + ord[0].order_price + " x " + ord[0].order_lot + " id=" + ord[0].order_id); }));
+                    updateOrderStatus("CANCELLING", id);
+                    cancelling = true;
+                }
             }
             else
             {
@@ -229,19 +339,25 @@ namespace FlyerTrading
 
         public async Task<string> cancelAllOrders()
         {
-            var res = await FlyerAPI2.cancelAllChildOrdersAsync();
-            if (res == "")
+            var ord = getAllOrders();
+            string res="";
+            for (int i = 0; i < ord.Count; i++)
             {
-                for(int i=0; i<order_id.Count; i++)
+                if (ord[i].order_status != "CANCELLING")
                 {
-                    order_status[i] = "CANCELLING";
+                    res = await FlyerAPI2.cancelChildOrdersAsync(ord[i].order_id);
+                    if (res == "")
+                    {
+                        updateOrderStatus("CANCELLING", ord[i].order_id);
+                        takeLog(DateTime.Now + ": cancelling " + ord[i].order_side + " for " + ord[i].order_price + " x " + ord[i].order_lot + " id=" + ord[i].order_id);
+                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("cancelling " + ord[i].order_side + " for " + ord[i].order_price + " x " + ord[i].order_lot + " id=" + ord[i].order_id); }));
+                        cancelling = true;
+                    }
+                    else
+                    {
+                        takeLog("failed cancel all orders: " + res);
+                    }
                 }
-                takeLog("cancelled all orders");
-                //removeAllOrders();
-            }
-            else
-            {
-                takeLog("failed cancel all orders: " + res);
             }
             return res;
         }
@@ -250,7 +366,7 @@ namespace FlyerTrading
         public async Task<string> startExitPriceTracingOrder()
         {
             string res = "";
-            takeLog("started exit price tracing order");
+            takeLog(DateTime.Now + ": started exit price tracing order");
             Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("started price tracing order"); }));
 
             await Task.Run(async () =>
@@ -263,25 +379,25 @@ namespace FlyerTrading
                         var board = BoardDataUpdate.getCurrentBoard();
                         double bid_max = board.Bids.Select(x => x.Price).ToList().Max();
                         double ask_min = board.Asks.Select(x => x.Price).ToList().Min();
+                        var ord = getAllOrders();
 
                         if (holding_ave_side == "BUY") //hodling long position
                         {
-                            int index = order_side.IndexOf("SELL");
+                            int index = ord.Select(x=>x.order_side).ToList().IndexOf("SELL");
                             if (index >= 0) //exit order is already exist
                             {
-                                if (order_price[index] >= ask_min)
+                                if (ord[index].order_price >= ask_min)
                                 {
-                                    var res_cancel = await FlyerAPI2.cancelChildOrdersAsync(order_id[index]);
+                                    var res_cancel = await FlyerAPI2.cancelChildOrdersAsync(ord[index].order_id);
                                     if (res_cancel != "error")
                                     {
-                                        takeLog("PirceTracingOrder - cancelled sell order " + order_price[index] + " x " + order_lot[index]);
-                                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("PirceTracingOrder - cancelled buy order : " + order_price[index] + " x " + order_lot[index]); }));
-                                        //removeOrder(index);
+                                        takeLog(DateTime.Now + ": PirceTracingOrder - cancelling sell order " + ord[index].order_price + " x " + ord[index].order_lot);
+                                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("PirceTracingOrder - cancelling buy order : " + ord[index].order_price+ " x " + ord[index].order_lot); }));
                                         var order = await FlyerAPI2.sendChiledOrderAsync("SELL", ask_min - 1, holding_total_size, 1);
                                         if (order.order_id != "")
                                         {
                                             addOrder(DateTime.Now, ask_min - 1, holding_total_size, order.order_id, "ACTIVE", "SELL");
-                                            takeLog("PirceTracingOrder - entry sell order " + (ask_min - 1).ToString() + " x " + holding_total_size);
+                                            takeLog(DateTime.Now + ": PirceTracingOrder - entry sell order " + (ask_min - 1).ToString() + " x " + holding_total_size);
                                             Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("PirceTracingOrder - ordered sell @" + (ask_min - 1)); }));
                                         }
                                     }
@@ -294,33 +410,31 @@ namespace FlyerTrading
                                 if (order.order_id != "")
                                 {
                                     addOrder(DateTime.Now, ask_min - 1, holding_total_size, order.order_id, "ACTIVE", "SELL");
-                                    takeLog("PirceTracingOrder - entry sell order " + (ask_min - 1).ToString() + " x " + holding_total_size);
+                                    takeLog(DateTime.Now + ": PirceTracingOrder - entry sell order " + (ask_min - 1).ToString() + " x " + holding_total_size);
                                     Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("PirceTracingOrder - ordered sell @" + (ask_min - 1)); }));
                                 }
                             }
                         }
                         else if (holding_ave_side == "SELL") //holding short position
                         {
-                            int index = order_side.IndexOf("BUY");
+                            int index = ord.Select(x=>x.order_side).ToList().IndexOf("BUY");
                             if (index >= 0) //exit order is already exist
                             {
-                                if (order_price[index] <= bid_max)
+                                if (ord[index].order_price <= bid_max)
                                 {
-                                    var res_cancel = await FlyerAPI2.cancelChildOrdersAsync(order_id[index]);
+                                    var res_cancel = await FlyerAPI2.cancelChildOrdersAsync(ord[index].order_id);
                                     if (res_cancel != "error")
                                     {
-                                        takeLog("PirceTracingOrder - cancelled buy order " + order_price[index] + " x " + order_lot[index]);
-                                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("PirceTracingOrder - cancelled buy order : " + order_price[index] + " x " + order_lot[index]); }));
-                                        //removeOrder(index);
+                                        takeLog(DateTime.Now + ": PirceTracingOrder - cancelling buy order " + ord[index].order_price + " x " + ord[index].order_lot);
+                                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("PirceTracingOrder - cancelling buy order : " + ord[index].order_price + " x " + ord[index].order_lot); }));
                                         var order = await FlyerAPI2.sendChiledOrderAsync("BUY", bid_max + 1, holding_total_size, 1);
                                         if (order.order_id != "")
                                         {
                                             addOrder(DateTime.Now, bid_max + 1, holding_total_size, order.order_id, "ACTIVE", "BUY");
-                                            takeLog("PirceTracingOrder - entry buy order " + (bid_max + 1).ToString() + " x " + holding_total_size);
+                                            takeLog(DateTime.Now + ": PirceTracingOrder - entry buy order " + (bid_max + 1).ToString() + " x " + holding_total_size);
                                             Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("PirceTracingOrder - ordered buy @" + (bid_max + 1)); }));
                                         }
                                     }
-                                    break;
                                 }
                             }
                             else //exit order it not yet exit
@@ -329,7 +443,7 @@ namespace FlyerTrading
                                 if (order.order_id != "")
                                 {
                                     addOrder(DateTime.Now, bid_max + 1, holding_total_size, order.order_id, "ACTIVE", "BUY");
-                                    takeLog("PirceTracingOrder - entry buy order " + (bid_max + 1).ToString() + " x " + holding_total_size);
+                                    takeLog(DateTime.Now + ": PirceTracingOrder - entry buy order " + (bid_max + 1).ToString() + " x " + holding_total_size);
                                     Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("PirceTracingOrder - ordered buy @" + (bid_max + 1)); }));
                                 }
                             }
@@ -347,20 +461,31 @@ namespace FlyerTrading
         public async Task<string> checkExecutionAndUpdateOrders()
         {
             var res = "";
+            if (MarketDataLog.getNumExecutionsLog() < last_ind_marketdata)
+                last_ind_marketdata = 0;
+
             var exe_data = MarketDataLog.getExecutionsDataRange(last_ind_marketdata);
-            for (int i = 0; i < order_status.Count; i++)
+            last_ind_marketdata += exe_data.Count;
+            var ord = getAllOrders();
+            for (int i = 0; i < ord.Count; i++)
             {
                 for (int j = 0; j < exe_data.Count; j++)
                 {
-                    if (exe_data[j].buy_child_order_acceptance_id == order_id[i] || exe_data[j].sell_child_order_acceptance_id == order_id[i])
+                    if (exe_data[j].buy_child_order_acceptance_id == ord[i].order_id || exe_data[j].sell_child_order_acceptance_id == ord[i].order_id)
                     {
-                        order_lot[i] -= exe_data[j].size;
-                        addHolding(order_price[i], exe_data[j].size, order_side[i]);
-                        takeLog("executed " + order_side[i] + " for " + order_price[i] + " x " + order_lot[i]);
-                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("executed " + order_side[i] + " for " + order_price[i] + " x " + order_lot[i]); }));
-                        if (order_lot[i] <= 0)
+                        ord[i].order_lot -= exe_data[j].size;
+                        addHolding(ord[i].order_price, exe_data[j].size, ord[i].order_side);
+                        takeLog(DateTime.Now + ": executed " + ord[i].order_side + " for " + exe_data[j].price + " x " + exe_data[j].size);
+                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("executed " + ord[i].order_side + " for " + exe_data[j].price + " x " + exe_data[j].size); }));
+                        if (ord[i].order_lot <= 0)
                         {
-                            removeOrder(i);
+                            takeLog(DateTime.Now + ": order " + ord[i].order_id+" was full filled and removed");
+                            Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("order " + ord[i].order_id + " was full filled and removed"); }));
+                            removeOrder(i);                            
+                        }
+                        else
+                        {
+                            updateOrderSize(ord[i].order_lot - exe_data[j].size, ord[i].order_id);
                         }
                     }
                 }

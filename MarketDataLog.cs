@@ -49,6 +49,13 @@ namespace FlyerTrading
                 return res;
             }
         }
+        public static Executions getLastExecutionsData()
+        {
+            lock (lockobj_executuons)
+            {
+                return executions_log[executions_log.Count-1];
+            }
+        }
         public static List<Executions> getExecutionsDataRange(int last_ind)
         {
             lock (lockobj_executuons)
@@ -130,7 +137,7 @@ namespace FlyerTrading
                     tick_log.RemoveRange(0, 100000);
             }
         }
-        public static List<Tick> getTockData()
+        public static List<Tick> getTickData()
         {
             lock (lockobj_tick)
             {

@@ -161,15 +161,23 @@ namespace FlyerTrading
             }
         }
 
-        private void buttonTest_Click(object sender, EventArgs e)
+        private async void buttonTest_Click(object sender, EventArgs e)
         {
-           // var res = DBManager.getAllBoardData();
-           // foreach (var v in res)
-           //     addListBox(v.Key.ToLongTimeString()+" : bid=" + v.Value[0]+", ask="+v.Value[1]+", spread="+v.Value[2]);
+            //await MMbot.startMMBot(100,0.01);
+            SystemFlg.setMMFlg(true);
+            MarketData.startMarketData();
+            await Task.Delay(5000);
 
-            var exe = DBManager.getAllExecutions();
-            foreach(var v in exe)
-                addListBox2("id="+v.id+", side="+v.side+", price="+v.price +", size="+v.size+", date="+v.exec_date+", id="+v.buy_child_order_acceptance_id+" : "+ v.sell_child_order_acceptance_id);
+            var ac = new Account();
+            var rod =await ac.entry(MarketDataLog.getLastExecutionsData().price - 100000, 0.01, "BUY");
+            addListBox("order sent");
+
+            await Task.Delay(10000);
+
+            await ac.cancelOrder(rod.order_id);
+            addListBox("order cancelling");
+
+            await Task.Delay(1000000);
         }
 
         private async void buttonBoardUpdate_Click(object sender, EventArgs e)
@@ -256,7 +264,7 @@ namespace FlyerTrading
             Parallel.Invoke(
                 () => MasterThread.startMasterThread(),
                 () => MarketData.startMarketData(),
-            () => MMbot.startMMBot(50, 0.01)
+            () => MMbot.startMMBot(100, 0.01)
             );
         }
 
