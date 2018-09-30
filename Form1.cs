@@ -38,6 +38,11 @@ namespace FlyerTrading
 
         }
 
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Log.writeLog();
+        }
+
         private async void buttonGetINfo_Click(object sender, EventArgs e)
         {
             Form1Instance.initializeListBox();
@@ -140,10 +145,12 @@ namespace FlyerTrading
 
         private async void buttonExitAll_Click(object sender, EventArgs e)
         {
+            Log.initialize();
             if (SystemFlg.getMarketDataFlg() == false)
             {
-                MarketData.startMarketData();
                 MasterThread.startMasterThread();
+                await Task.Delay(1000);
+                MarketData.startMarketData();
                 await Task.Delay(3000);
             }
 
@@ -164,7 +171,7 @@ namespace FlyerTrading
         private async void buttonTest_Click(object sender, EventArgs e)
         {
             //await MMbot.startMMBot(100,0.01);
-            SystemFlg.setMMFlg(true);
+            /*SystemFlg.setMMFlg(true);
             MarketData.startMarketData();
             await Task.Delay(5000);
 
@@ -177,7 +184,11 @@ namespace FlyerTrading
             await ac.cancelOrder(rod.order_id);
             addListBox("order cancelling");
 
-            await Task.Delay(1000000);
+            await Task.Delay(1000000);*/
+
+            
+
+
         }
 
         private async void buttonBoardUpdate_Click(object sender, EventArgs e)
@@ -261,10 +272,11 @@ namespace FlyerTrading
 
         private void buttonStartMMBot_Click(object sender, EventArgs e)
         {
+            Log.initialize();
             Parallel.Invoke(
                 () => MasterThread.startMasterThread(),
                 () => MarketData.startMarketData(),
-            () => MMbot.startMMBot(100, 0.01)
+            () => MMbot.startMMBot(80, 0.03)
             );
         }
 
@@ -505,7 +517,19 @@ namespace FlyerTrading
             this.textBox1.Text = text;
         }
 
-        private delegate void setDataGridviewDelegate(double[] bid_p, double[] bid_s, double[] ask_p, double[] ask_s);
+        private delegate void setTextBox2Delegate(string text);
+        public void setTextBox2(string text)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new setTextBox2Delegate(setTextBox2));
+                return;
+            }
+            this.textBox2.Text = text;
+        }
+
+
+        /*private delegate void setDataGridviewDelegate(double[] bid_p, double[] bid_s, double[] ask_p, double[] ask_s);
         public void setDataGridView(double[] bid_p, double[] bid_s, double[] ask_p, double[] ask_s)
         {
             if(InvokeRequired)
@@ -518,7 +542,7 @@ namespace FlyerTrading
                 this.dataGridView1.Rows.Add(bid_p[i], bid_s[i],"","");
             for(int i=0; i<ask_p.Length; i++)
                 this.dataGridView1.Rows.Add("", "", ask_p[i], ask_s[i]);
-        }
+        }*/
 
 
 
@@ -533,6 +557,11 @@ namespace FlyerTrading
 
 
         #endregion
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
 
         
     }

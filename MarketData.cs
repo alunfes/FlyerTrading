@@ -9,6 +9,8 @@ namespace FlyerTrading
 {
     class MarketData
     {
+        private static bool disconnect_flg = false;
+
         public static void startMarketData()
         {
             SystemFlg.setMarketDataFlg(true);
@@ -22,13 +24,15 @@ namespace FlyerTrading
 
         private async static void marketDataThread()
         {
-            var api = new API();
+            A:
+            disconnect_flg = false;
+            //var api = new API();
             //var api2 = new API();
             var api3 = new API();
 
-            api.Subscribe<Tick>(api.TickerFxBtcJpy, OnReceive, OnConnect, OnError);
+            //api.Subscribe<Tick>(api.TickerFxBtcJpy, OnReceive, OnConnect, OnError);
             //api2.Subscribe<BoardDiff>(api.boardFxBtcJpy, OnReceiveBoard, OnConnectBoard, OnError);
-            api3.Subscribe<List<Executions>>(api.ExecutionsFxBtcJpy, OnReceiveExecutions, OnConnectExecutions, OnError);
+            api3.Subscribe<List<Executions>>(api3.ExecutionsFxBtcJpy, OnReceiveExecutions, OnConnectExecutions, OnErrorExecutions);
 
             while (SystemFlg.getMarketDataFlg())
             {
@@ -39,10 +43,17 @@ namespace FlyerTrading
                     Form1.Form1Instance.setLabel("num executions log=" + MarketDataLog.getNumExecutionsLog().ToString());
                     Form1.Form1Instance.setLabel2("num board data log=" + MarketDataLog.getNumBoardData().ToString());
                 }));
+
+                if (disconnect_flg)
+                    goto A;//make new instance when unexpectedlly disconnected
             }
-            api.unsubscribe();
+
+            api3.unsubscribe();
         }
         
+
+
+
         private static void OnConnect(string message)
         {
             //take log
@@ -59,6 +70,7 @@ namespace FlyerTrading
             Form1.Form1Instance.setLabel3(message);
             if (ex != null)
             {
+                disconnect_flg = true;
                 Form1.Form1Instance.setLabel2(ex.Message);
             }
         }
@@ -120,6 +132,7 @@ namespace FlyerTrading
         private static void OnErrorExecutions(string message, Exception ex)
         {
             Form1.Form1Instance.setLabel3(message);
+            disconnect_flg = true;
             if (ex != null)
             {
                 Form1.Form1Instance.setLabel3(ex.Message);

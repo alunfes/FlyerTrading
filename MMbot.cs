@@ -59,17 +59,19 @@ namespace FlyerTrading
 
             await Task.Run(async () =>
             {
+                int num = 0;
                 while (SystemFlg.getMMFlg())
                 {
                     if (FlyerAPI2.getApiAccessProhibition() == false)
                     {
+                        //Log.addLog("MMBOT", "num=" + num.ToString());
                         await MMStrategy(ac);
                         
-                        string line2 = "";
-                        var ord = ac.getAllOrders();
-                        for (int i = 0; i < ord.Count; i++)
+                        //string line2 = "";
+                        //var ord = ac.getAllOrders();
+                        /*for (int i = 0; i < ord.Count; i++)
                             line2 += ord[i].order_side + " - " + ord[i].order_lot + "@" + ord[i].order_price + ", ";
-
+                            */
                         //ac.takeLog("orders:"+line2);
                         //ac.takeLog("holdings:"+ ac.holding_ave_side + ", hold ave price=" + ac.holding_ave_price + " x " + ac.holding_total_size);
 
@@ -77,8 +79,9 @@ namespace FlyerTrading
                         {
                             Form1.Form1Instance.setLabel5(ac.holding_ave_side+ ", hold ave price="+ac.holding_ave_price + " x " +ac.holding_total_size);
                             Form1.Form1Instance.setLabel4("num trade=" + ac.num_trade);
-                            Form1.Form1Instance.setLabel6(line2);
+                            //Form1.Form1Instance.setLabel6(line2);
                         }));
+                        num++;
                     }
                     else
                     {
@@ -133,10 +136,16 @@ namespace FlyerTrading
                         //entry for both of bid and ask
                         var sell_order = await ac.entry(ask_min - 1, order_size, "SELL");
                         if (sell_order.order_id != "")
+                        {
+                            Log.addLog("MMStrategy", "ordered sell @" + (ask_min - 1));
                             Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered sell @" + (ask_min - 1)); }));
+                        }
                         var buy_order = await ac.entry(bid_max + 1, order_size, "BUY");
                         if (buy_order.order_id != "")
+                        {
+                            Log.addLog("MMStrategy", "ordered buy @" + (bid_max + 1));
                             Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered buy @" + (bid_max + 1)); }));
+                        }
 
                         //check execution and start exit price tracing when executed
                         bool flg = true;
@@ -147,6 +156,7 @@ namespace FlyerTrading
                                 await ac.startExitPriceTracingOrder();
                             else if (BoardDataUpdate.getCurrentBoard().spread < entry_spread)
                             {
+                                Log.addLog("MMStrategy", "cancelAllOrders-hold=0, order=0");
                                 await ac.cancelAllOrders();
                                 flg = false;
                             }
@@ -157,6 +167,7 @@ namespace FlyerTrading
                 {
                     if (board.spread < entry_spread)
                     {
+                        Log.addLog("MMStrategy", "cancelAllOrders-hold=0, order>0, board.spread < entry_spread");
                         var res_cancel = await ac.cancelAllOrders();
                         if(res_cancel!="error")
                         {
@@ -174,11 +185,12 @@ namespace FlyerTrading
                                 {
                                     double size = ord[i].order_lot;
                                     Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("cancelling buy order, id=" + ord[i].order_id); }));
+                                    Log.addLog("MMStrategy", "hold=0, order>0, board.spread > entry_spread, cancelling buy order, id=" + ord[i].order_id);
                                     var res_cancel = await ac.cancelOrder(ord[i].order_id);
                                     if (res_cancel != "error")
                                     {
-                                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered buy @" + (bid_max + 1)); }));
-                                        await ac.entry(bid_max + 1, size, "BUY");
+                                        //Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered buy @" + (bid_max + 1)); }));
+                                        //await ac.entry(bid_max + 1, size, "BUY");
                                     }
                                 }
                             }
@@ -188,11 +200,12 @@ namespace FlyerTrading
                                 {
                                     double size = ord[i].order_lot;
                                     Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("cancelling sell order, id=" + ord[i].order_id); }));
+                                    Log.addLog("MMStrategy", "hold=0, order>0, board.spread > entry_spread, cancelling sell order, id=" + ord[i].order_id);
                                     var res_cancel = await ac.cancelOrder(ord[i].order_id);
                                     if (res_cancel != "error")
                                     {
-                                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered sell @" + (ask_min - 1)); }));
-                                        await ac.entry(ask_min - 1, size, "SELL");
+                                        //Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("ordered sell @" + (ask_min - 1)); }));
+                                        //await ac.entry(ask_min - 1, size, "SELL");
                                     }
                                 }
                             }
@@ -201,6 +214,7 @@ namespace FlyerTrading
                 }
                 else if (ac.holding_total_size > 0)//holding positions, and orders
                 {
+                    Log.addLog("MMStrategy", "ac.holding_total_size > 0");
                     var com = await ac.startExitPriceTracingOrder();
                     res = "completed exit price tracing order";
                 }

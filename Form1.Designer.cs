@@ -41,11 +41,6 @@
             this.buttonGetActiveOrders = new System.Windows.Forms.Button();
             this.listBox3 = new System.Windows.Forms.ListBox();
             this.buttonTest = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.ColumnBidPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnBidSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnAskPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnAskSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.buttonBoardUpdate = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -68,7 +63,7 @@
             this.buttonExitAll = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.buttonCancelAllOrders = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // buttonMarketData
@@ -124,10 +119,10 @@
             this.listBox1.FormattingEnabled = true;
             this.listBox1.HorizontalScrollbar = true;
             this.listBox1.ItemHeight = 24;
-            this.listBox1.Location = new System.Drawing.Point(12, 359);
+            this.listBox1.Location = new System.Drawing.Point(12, 878);
             this.listBox1.Name = "listBox1";
             this.listBox1.ScrollAlwaysVisible = true;
-            this.listBox1.Size = new System.Drawing.Size(785, 604);
+            this.listBox1.Size = new System.Drawing.Size(785, 292);
             this.listBox1.TabIndex = 5;
             // 
             // listBox2
@@ -149,13 +144,14 @@
             this.label3.Size = new System.Drawing.Size(67, 24);
             this.label3.TabIndex = 7;
             this.label3.Text = "label3";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(2171, 19);
+            this.textBox1.Location = new System.Drawing.Point(12, 631);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(311, 334);
+            this.textBox1.Size = new System.Drawing.Size(785, 205);
             this.textBox1.TabIndex = 9;
             // 
             // buttonCancelOrder
@@ -198,40 +194,6 @@
             this.buttonTest.Text = "test";
             this.buttonTest.UseVisualStyleBackColor = true;
             this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ColumnBidPrice,
-            this.ColumnBidSize,
-            this.ColumnAskPrice,
-            this.ColumnAskSize});
-            this.dataGridView1.Location = new System.Drawing.Point(12, 998);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 33;
-            this.dataGridView1.Size = new System.Drawing.Size(1088, 524);
-            this.dataGridView1.TabIndex = 14;
-            // 
-            // ColumnBidPrice
-            // 
-            this.ColumnBidPrice.HeaderText = "BidPrice";
-            this.ColumnBidPrice.Name = "ColumnBidPrice";
-            // 
-            // ColumnBidSize
-            // 
-            this.ColumnBidSize.HeaderText = "Size";
-            this.ColumnBidSize.Name = "ColumnBidSize";
-            // 
-            // ColumnAskPrice
-            // 
-            this.ColumnAskPrice.HeaderText = "AskPrice";
-            this.ColumnAskPrice.Name = "ColumnAskPrice";
-            // 
-            // ColumnAskSize
-            // 
-            this.ColumnAskSize.HeaderText = "Size";
-            this.ColumnAskSize.Name = "ColumnAskSize";
             // 
             // buttonBoardUpdate
             // 
@@ -444,12 +406,21 @@
             this.buttonCancelAllOrders.UseVisualStyleBackColor = true;
             this.buttonCancelAllOrders.Click += new System.EventHandler(this.buttonCancelAllOrders_Click);
             // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(12, 372);
+            this.textBox2.Multiline = true;
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(785, 205);
+            this.textBox2.TabIndex = 37;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(2740, 1534);
+            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.buttonCancelAllOrders);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.buttonExitAll);
@@ -472,7 +443,6 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.buttonBoardUpdate);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.buttonTest);
             this.Controls.Add(this.listBox3);
             this.Controls.Add(this.buttonGetActiveOrders);
@@ -488,8 +458,8 @@
             this.Controls.Add(this.buttonMarketData);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -510,11 +480,6 @@
         private System.Windows.Forms.Button buttonGetActiveOrders;
         private System.Windows.Forms.ListBox listBox3;
         private System.Windows.Forms.Button buttonTest;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnBidPrice;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnBidSize;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnAskPrice;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnAskSize;
         private System.Windows.Forms.Button buttonBoardUpdate;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
@@ -537,6 +502,7 @@
         private System.Windows.Forms.Button buttonExitAll;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button buttonCancelAllOrders;
+        private System.Windows.Forms.TextBox textBox2;
     }
 }
 
