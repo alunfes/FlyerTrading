@@ -156,7 +156,7 @@ namespace FlyerTrading
                                 await ac.startExitPriceTracingOrder();
                             else if (BoardDataUpdate.getCurrentBoard().spread < entry_spread)
                             {
-                                Log.addLog("MMStrategy", "cancelAllOrders-hold=0, order=0");
+                                //Log.addLog("MMStrategy", "cancelAllOrders-hold=0, order=0");
                                 await ac.cancelAllOrders();
                                 flg = false;
                             }
@@ -167,7 +167,7 @@ namespace FlyerTrading
                 {
                     if (board.spread < entry_spread)
                     {
-                        Log.addLog("MMStrategy", "cancelAllOrders-hold=0, order>0, board.spread < entry_spread");
+                        //Log.addLog("MMStrategy", "cancelAllOrders-hold=0, order>0, board.spread < entry_spread");
                         var res_cancel = await ac.cancelAllOrders();
                         if(res_cancel!="error")
                         {

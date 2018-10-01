@@ -399,27 +399,24 @@ namespace FlyerTrading
 
                         if (holding_ave_side == "BUY") //hodling long position
                         {
-                            int index = ord.Select(x=>x.order_side).ToList().IndexOf("SELL");
-                            if (index >= 0) //exit order is already exist
+                            var orders = ord.Where(x => x.order_side == "SELL").ToList();
+                            if (orders.Count > 0) //exit order is already exist
                             {
-                                if (ord[index].order_price >= ask_min)
+                                for (int i = 0; i < orders.Count; i++)
                                 {
-                                    var res_cancel = await FlyerAPI2.cancelChildOrdersAsync(ord[index].order_id);
-                                    if (res_cancel != "error")
+                                    if (orders[i].order_status != "CANCELLING")
                                     {
-                                        takeLog(DateTime.Now + ": PirceTracingOrder - cancelling sell order " + ord[index].order_price + " x " + ord[index].order_lot);
-                                        Log.addLog("Account-startExitPriceTracingOrder", ": PirceTracingOrder - cancelling sell order " + ord[index].order_price + " x " + ord[index].order_lot);
-                                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("PirceTracingOrder - cancelling buy order : " + ord[index].order_price+ " x " + ord[index].order_lot); }));
-                                        var order = await FlyerAPI2.sendChiledOrderAsync("SELL", ask_min - 1, holding_total_size, 1);
-                                        if (order.order_id != "")
+                                        if (orders[i].order_price >= ask_min)
                                         {
-                                            addOrder(DateTime.Now, ask_min - 1, holding_total_size, order.order_id, "ACTIVE", "SELL");
-                                            takeLog(DateTime.Now + ": PirceTracingOrder - entry sell order " + (ask_min - 1).ToString() + " x " + holding_total_size);
-                                            Log.addLog("Account-startExitPriceTracingOrder", ": PirceTracingOrder - entry sell order " + (ask_min - 1).ToString() + " x " + holding_total_size);
-                                            Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("PirceTracingOrder - ordered sell @" + (ask_min - 1)); }));
+                                            var res_cancel = await cancelOrder(orders[i].order_id);
+                                            if (res_cancel != "error")
+                                            {
+                                                takeLog(DateTime.Now + ": PirceTracingOrder - cancelling sell order " + orders[i].order_price + " x " + orders[i].order_lot);
+                                                Log.addLog("Account-startExitPriceTracingOrder", ": PirceTracingOrder - cancelling sell order " + orders[i].order_price + " x " + orders[i].order_lot);
+                                                Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("PirceTracingOrder - cancelling sell order : " + orders[i].order_price + " x " + orders[i].order_lot); }));
+                                            }
                                         }
                                     }
-                                    break;
                                 }
                             }
                             else //if no exit order 
@@ -436,24 +433,22 @@ namespace FlyerTrading
                         }
                         else if (holding_ave_side == "SELL") //holding short position
                         {
-                            int index = ord.Select(x=>x.order_side).ToList().IndexOf("BUY");
-                            if (index >= 0) //exit order is already exist
+                            var orders = ord.Where(x => x.order_side == "BUY").ToList();
+                            if (orders.Count > 0) //exit order is already exist
                             {
-                                if (ord[index].order_price <= bid_max)
+                                for (int i = 0; i < orders.Count; i++)
                                 {
-                                    var res_cancel = await FlyerAPI2.cancelChildOrdersAsync(ord[index].order_id);
-                                    if (res_cancel != "error")
+                                    if (orders[i].order_status != "CANCELLING")
                                     {
-                                        takeLog(DateTime.Now + ": PirceTracingOrder - cancelling buy order " + ord[index].order_price + " x " + ord[index].order_lot);
-                                        Log.addLog("Account-startExitPriceTracingOrder", ": PirceTracingOrder - cancelling buy order " + ord[index].order_price + " x " + ord[index].order_lot);
-                                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("PirceTracingOrder - cancelling buy order : " + ord[index].order_price + " x " + ord[index].order_lot); }));
-                                        var order = await FlyerAPI2.sendChiledOrderAsync("BUY", bid_max + 1, holding_total_size, 1);
-                                        if (order.order_id != "")
+                                        if (orders[i].order_price <= bid_max)
                                         {
-                                            addOrder(DateTime.Now, bid_max + 1, holding_total_size, order.order_id, "ACTIVE", "BUY");
-                                            takeLog(DateTime.Now + ": PirceTracingOrder - entry buy order " + (bid_max + 1).ToString() + " x " + holding_total_size);
-                                            Log.addLog("Account-startExitPriceTracingOrder", ": PirceTracingOrder - entry buy order " + (bid_max + 1).ToString() + " x " + holding_total_size);
-                                            Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("PirceTracingOrder - ordered buy @" + (bid_max + 1)); }));
+                                            var res_cancel = await cancelOrder(orders[i].order_id);
+                                            if (res_cancel != "error")
+                                            {
+                                                takeLog(DateTime.Now + ": PirceTracingOrder - cancelling buy order " + orders[i].order_price + " x " + orders[i].order_lot);
+                                                Log.addLog("Account-startExitPriceTracingOrder", ": PirceTracingOrder - cancelling buy order " + orders[i].order_price + " x " + orders[i].order_lot);
+                                                Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("PirceTracingOrder - cancelling buy order : " + orders[i].order_price + " x " + orders[i].order_lot); }));
+                                            }
                                         }
                                     }
                                 }
@@ -471,7 +466,7 @@ namespace FlyerTrading
                             }
                         }
                     }
-                } while (holding_total_size > 0);
+                } while (holding_total_size > 0 || getNumCurrentOrders() > 0);
             });
 
             takeLog("Completed exit price tracing order");
