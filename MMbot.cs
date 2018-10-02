@@ -185,7 +185,7 @@ namespace FlyerTrading
                                 {
                                     double size = ord[i].order_lot;
                                     Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("cancelling buy order, id=" + ord[i].order_id); }));
-                                    Log.addLog("MMStrategy", "hold=0, order>0, board.spread > entry_spread, cancelling buy order, id=" + ord[i].order_id);
+                                    //Log.addLog("MMStrategy", "hold=0, order>0, board.spread > entry_spread, cancelling buy order, id=" + ord[i].order_id);
                                     var res_cancel = await ac.cancelOrder(ord[i].order_id);
                                     if (res_cancel != "error")
                                     {
@@ -200,7 +200,7 @@ namespace FlyerTrading
                                 {
                                     double size = ord[i].order_lot;
                                     Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("cancelling sell order, id=" + ord[i].order_id); }));
-                                    Log.addLog("MMStrategy", "hold=0, order>0, board.spread > entry_spread, cancelling sell order, id=" + ord[i].order_id);
+                                    //Log.addLog("MMStrategy", "hold=0, order>0, board.spread > entry_spread, cancelling sell order, id=" + ord[i].order_id);
                                     var res_cancel = await ac.cancelOrder(ord[i].order_id);
                                     if (res_cancel != "error")
                                     {
