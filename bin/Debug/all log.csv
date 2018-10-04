@@ -1,295 +1,237 @@
 datetime,log key,log data
-2018:10:02:23:17:32:620,0-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:33:635,1-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:34:635,2-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:35:645,3-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:36:654,4-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:37:657,5-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:38:668,6-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:39:674,7-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:40:676,8-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:41:677,9-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:42:679,10-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:43:681,11-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:44:692,12-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:45:700,13-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:46:710,14-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:47:723,15-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:48:726,16-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:49:749,17-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:50:758,18-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:51:760,19-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:52:763,20-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:53:774,21-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:54:803,22-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:55:805,23-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:56:817,24-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:57:817,25-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:58:822,26-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:17:59:875,27-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:00:882,28-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:01:896,29-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:02:902,30-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:03:916,31-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:04:928,32-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:05:931,33-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:06:945,34-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:07:951,35-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:08:958,36-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:09:963,37-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:10:998,38-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:12:015,39-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:13:024,40-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:14:029,41-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:15:035,42-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:16:063,43-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:17:075,44-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:18:079,45-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:19:092,46-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:20:101,47-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:21:108,48-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:22:115,49-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:23:134,50-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:24:142,51-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:25:156,52-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:26:162,53-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:27:197,54-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:28:197,55-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:29:226,56-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:30:240,57-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:31:242,58-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:32:244,59-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:33:245,60-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:34:257,61-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:35:258,62-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:36:262,63-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:37:296,64-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:38:308,65-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:39:321,66-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:40:371,67-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:41:381,68-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:42:382,69-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:43:383,70-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:44:394,71-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:45:400,72-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:46:405,73-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:47:408,74-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:48:423,75-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:49:431,76-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:50:452,77-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:51:462,78-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:52:517,79-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:53:532,80-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:54:539,81-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:55:550,82-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:56:554,83-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:57:559,84-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:58:574,85-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:18:59:606,86-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:00:628,87-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:01:633,88-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:02:648,89-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:03:650,90-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:04:661,91-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:05:676,92-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:06:676,93-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:07:677,94-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:08:678,95-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:09:682,96-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:10:762,97-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:11:771,98-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:12:772,99-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:13:772,100-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:14:786,101-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:15:787,102-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:16:796,103-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:17:805,104-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:18:833,105-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:19:901,106-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:20:903,107-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:21:926,108-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:22:928,109-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:23:933,110-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:24:943,111-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:25:954,112-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:26:980,113-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:27:982,114-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:28:988,115-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:29:992,116-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:30:237,117-Account-Entry,: new entry for SELL: price=757795: size=0.03: id=JRF20181002-141931-245176
-2018:10:02:23:19:30:237,118-MMStrategy,ordered sell @757795
-2018:10:02:23:19:30:341,119-Account-Entry,: new entry for BUY: price=757712: size=0.03: id=JRF20181002-141931-776879
-2018:10:02:23:19:30:341,120-MMStrategy,ordered buy @757712
-2018:10:02:23:19:30:549,121-Accoubt-getAllOrders,: cancelling SELL for 757795 x 0.03 id=JRF20181002-141931-245176
-2018:10:02:23:19:30:628,122-Accoubt-getAllOrders,: cancelling BUY for 757712 x 0.03 id=JRF20181002-141931-776879
-2018:10:02:23:19:31:232,123-Account-CheckCancel,sendChiledOrderAsync-dummy
-2018:10:02:23:19:31:305,124-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:31:997,125-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:32:554,126-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:32:981,127-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:33:051,128-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:33:235,129-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:33:259,130-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:33:349,131-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:33:402,132-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:33:487,133-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:33:583,134-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:33:631,135-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:33:675,136-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:33:787,137-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:33:809,138-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:33:866,139-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:34:045,140-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:34:146,141-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:34:209,142-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:34:505,143-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:35:134,144-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:35:704,145-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:36:257,146-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:36:622,147-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:36:674,148-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:36:733,149-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:36:802,150-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:36:881,151-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:37:546,152-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:38:193,153-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:38:490,154-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:38:534,155-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:38:591,156-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:38:748,157-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:38:808,158-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:38:867,159-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:38:942,160-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:38:988,161-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:39:074,162-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:39:124,163-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:39:266,164-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:39:288,165-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:39:314,166-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:39:570,167-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:39:640,168-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:39:700,169-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:39:753,170-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:39:806,171-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:39:840,172-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:39:870,173-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:39:925,174-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:40:014,175-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:40:071,176-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:40:113,177-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:40:151,178-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:40:216,179-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:40:349,180-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:40:394,181-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:40:406,182-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:40:454,183-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:40:515,184-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:40:562,185-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:40:628,186-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:40:681,187-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:40:870,188-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:40:918,189-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:40:990,190-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:40:996,191-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:41:036,192-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:41:079,193-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:41:130,194-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:41:211,195-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:41:246,196-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:41:520,197-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:41:529,198-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:41:596,199-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:41:672,200-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:41:985,201-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:42:163,202-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:42:209,203-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:42:557,204-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:42:613,205-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:42:665,206-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:42:728,207-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:42:787,208-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:42:836,209-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:42:873,210-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:42:941,211-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:42:992,212-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:43:087,213-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:43:148,214-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:43:235,215-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:43:308,216-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:43:416,217-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:43:423,218-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:43:474,219-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:43:540,220-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:43:639,221-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:43:711,222-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:43:771,223-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:43:825,224-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:43:868,225-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:43:923,226-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:43:983,227-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:44:071,228-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:44:139,229-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:44:188,230-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:44:236,231-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:44:418,232-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:44:607,233-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:44:825,234-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:45:184,235-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:45:223,236-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:45:247,237-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:45:324,238-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:45:386,239-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:45:451,240-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:45:835,241-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:45:892,242-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:45:986,243-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:46:050,244-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:46:107,245-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:46:320,246-Account-CancelOrder,failed cancel order: {"status":-111,"error_message":"Order not found","data":null}
-2018:10:02:23:19:46:446,247-Account-checkExecutionAndUpdateOrders,: executed BUY for 757169 x 0.03
-2018:10:02:23:19:46:483,248-Account-checkExecutionAndUpdateOrders,: order JRF20181002-141931-776879 was full filled and removed
-2018:10:02:23:19:46:790,249-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:47:369,250-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:47:940,251-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:47:941,252-Account-CheckCancel,cancelled SELL, price=757795 x 0.03
-2018:10:02:23:19:48:541,253-Account-CheckCancel,getChildOrderAsync-ACTIVE
-2018:10:02:23:19:48:602,254-Account-CheckCancel,num cancelling = 0, res=
-2018:10:02:23:19:49:104,255-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:50:135,256-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:51:146,257-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:52:170,258-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:53:179,259-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:54:193,260-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:55:219,261-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:56:232,262-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:57:242,263-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:58:243,264-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:19:59:259,265-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:00:260,266-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:01:262,267-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:02:277,268-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:03:300,269-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:04:302,270-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:05:304,271-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:06:322,272-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:07:322,273-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:08:336,274-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:09:713,275-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:10:715,276-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:11:727,277-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:12:740,278-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:13:762,279-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:14:772,280-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:15:788,281-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:16:802,282-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:17:805,283-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:18:807,284-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:19:808,285-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:20:821,286-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:21:822,287-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:22:838,288-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:23:848,289-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:24:849,290-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:25:851,291-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:26:866,292-Account-CheckCancel,cancelling = false, num orders=0
-2018:10:02:23:20:27:880,293-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:17:227,0-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:18:229,1-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:19:241,2-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:20:273,3-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:21:279,4-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:22:290,5-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:23:290,6-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:24:305,7-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:25:336,8-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:26:339,9-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:27:344,10-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:28:348,11-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:29:356,12-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:30:369,13-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:31:376,14-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:32:401,15-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:33:405,16-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:34:405,17-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:35:413,18-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:36:416,19-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:37:416,20-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:38:431,21-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:39:437,22-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:40:455,23-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:41:467,24-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:42:495,25-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:43:500,26-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:44:508,27-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:45:509,28-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:46:512,29-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:47:512,30-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:48:523,31-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:49:525,32-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:50:526,33-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:51:527,34-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:52:540,35-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:53:554,36-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:54:558,37-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:55:166,38-Account-Entry,: new entry for SELL: price=762449: size=0.03: id=JRF20181004-132557-370525
+2018:10:04:22:25:55:166,39-MMStrategy,ordered sell @762449
+2018:10:04:22:25:55:347,40-Account-Entry,: new entry for BUY: price=762355: size=0.03: id=JRF20181004-132557-948480
+2018:10:04:22:25:55:347,41-MMStrategy,ordered buy @762355
+2018:10:04:22:25:55:428,42-Accoubt-getAllOrders,: cancelling SELL for 762449 x 0.03 id=JRF20181004-132557-370525
+2018:10:04:22:25:55:550,43-Accoubt-getAllOrders,: cancelling BUY for 762355 x 0.03 id=JRF20181004-132557-948480
+2018:10:04:22:25:55:707,44-Account-CheckCancel,sendChiledOrderAsync-dummy
+2018:10:04:22:25:55:782,45-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:25:56:335,46-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:25:56:335,47-Account-CheckCancel,cancelled SELL, price=762449 x 0.03
+2018:10:04:22:25:56:894,48-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:25:56:894,49-Account-CheckCancel,cancelled BUY, price=762355 x 0.03
+2018:10:04:22:25:57:430,50-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:25:57:490,51-Account-CheckCancel,num cancelling = 0, res=
+2018:10:04:22:25:57:992,52-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:25:58:997,53-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:00:027,54-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:01:040,55-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:02:041,56-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:03:056,57-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:04:064,58-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:05:070,59-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:06:071,60-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:07:073,61-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:08:121,62-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:09:126,63-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:10:134,64-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:10:491,65-Account-Entry,: new entry for SELL: price=762620: size=0.03: id=JRF20181004-132612-626629
+2018:10:04:22:26:10:491,66-MMStrategy,ordered sell @762620
+2018:10:04:22:26:10:562,67-Account-Entry,: new entry for BUY: price=762473: size=0.03: id=JRF20181004-132612-370604
+2018:10:04:22:26:10:562,68-MMStrategy,ordered buy @762473
+2018:10:04:22:26:10:830,69-Accoubt-getAllOrders,: cancelling SELL for 762620 x 0.03 id=JRF20181004-132612-626629
+2018:10:04:22:26:10:893,70-Accoubt-getAllOrders,: cancelling BUY for 762473 x 0.03 id=JRF20181004-132612-370604
+2018:10:04:22:26:11:248,71-Account-CheckCancel,sendChiledOrderAsync-dummy
+2018:10:04:22:26:11:339,72-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:26:11:971,73-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:26:12:580,74-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:26:13:157,75-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:26:13:702,76-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:26:13:702,77-Account-CheckCancel,cancelled SELL, price=762620 x 0.03
+2018:10:04:22:26:14:255,78-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:26:14:255,79-Account-CheckCancel,cancelled BUY, price=762473 x 0.03
+2018:10:04:22:26:14:850,80-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:26:14:940,81-Account-CheckCancel,num cancelling = 0, res=
+2018:10:04:22:26:15:440,82-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:16:452,83-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:17:464,84-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:18:467,85-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:19:256,86-Account-Entry,: new entry for SELL: price=762634: size=0.03: id=JRF20181004-132621-563941
+2018:10:04:22:26:19:256,87-MMStrategy,ordered sell @762634
+2018:10:04:22:26:19:340,88-Account-Entry,: new entry for BUY: price=762543: size=0.03: id=JRF20181004-132621-722227
+2018:10:04:22:26:19:340,89-MMStrategy,ordered buy @762543
+2018:10:04:22:26:19:428,90-Accoubt-getAllOrders,: cancelling SELL for 762634 x 0.03 id=JRF20181004-132621-563941
+2018:10:04:22:26:19:479,91-Accoubt-getAllOrders,: cancelling BUY for 762543 x 0.03 id=JRF20181004-132621-722227
+2018:10:04:22:26:19:555,92-Account-CheckCancel,sendChiledOrderAsync-dummy
+2018:10:04:22:26:19:589,93-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:26:20:174,94-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:26:20:883,95-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:26:20:883,96-Account-CheckCancel,cancelled SELL, price=762634 x 0.03
+2018:10:04:22:26:21:502,97-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:26:21:502,98-Account-CheckCancel,cancelled BUY, price=762543 x 0.03
+2018:10:04:22:26:22:168,99-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:26:22:234,100-Account-CheckCancel,num cancelling = 0, res=
+2018:10:04:22:26:22:742,101-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:23:768,102-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:24:330,103-Account-Entry,: new entry for SELL: price=762620: size=0.03: id=JRF20181004-132626-012695
+2018:10:04:22:26:24:330,104-MMStrategy,ordered sell @762620
+2018:10:04:22:26:24:407,105-Account-Entry,: new entry for BUY: price=762532: size=0.03: id=JRF20181004-132626-948600
+2018:10:04:22:26:24:407,106-MMStrategy,ordered buy @762532
+2018:10:04:22:26:24:606,107-Accoubt-getAllOrders,: cancelling SELL for 762620 x 0.03 id=JRF20181004-132626-012695
+2018:10:04:22:26:24:682,108-Accoubt-getAllOrders,: cancelling BUY for 762532 x 0.03 id=JRF20181004-132626-948600
+2018:10:04:22:26:24:914,109-Account-CheckCancel,sendChiledOrderAsync-dummy
+2018:10:04:22:26:24:957,110-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:26:25:517,111-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:26:26:066,112-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:26:26:066,113-Account-CheckCancel,cancelled SELL, price=762620 x 0.03
+2018:10:04:22:26:26:666,114-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:26:26:666,115-Account-CheckCancel,cancelled BUY, price=762532 x 0.03
+2018:10:04:22:26:27:210,116-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:26:27:355,117-Account-CheckCancel,num cancelling = 0, res=
+2018:10:04:22:26:27:858,118-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:28:868,119-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:30:015,120-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:31:015,121-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:32:026,122-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:33:028,123-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:34:028,124-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:35:028,125-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:36:030,126-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:37:040,127-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:38:041,128-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:39:051,129-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:40:054,130-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:41:054,131-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:42:066,132-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:43:068,133-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:44:080,134-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:45:081,135-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:46:091,136-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:47:103,137-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:48:106,138-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:49:109,139-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:50:112,140-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:51:116,141-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:52:128,142-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:53:138,143-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:54:148,144-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:55:151,145-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:56:168,146-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:57:175,147-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:58:186,148-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:26:59:199,149-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:00:199,150-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:01:213,151-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:02:214,152-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:03:229,153-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:04:243,154-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:05:249,155-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:06:259,156-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:07:261,157-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:08:261,158-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:09:264,159-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:10:318,160-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:11:327,161-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:12:339,162-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:13:349,163-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:14:353,164-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:15:353,165-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:16:354,166-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:17:367,167-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:18:368,168-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:19:371,169-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:20:391,170-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:21:401,171-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:22:404,172-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:23:433,173-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:24:445,174-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:25:460,175-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:26:469,176-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:27:479,177-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:28:494,178-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:29:497,179-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:30:511,180-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:31:529,181-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:32:545,182-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:33:558,183-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:34:565,184-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:35:578,185-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:36:595,186-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:37:609,187-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:38:623,188-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:39:762,189-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:40:491,190-Account-Entry,: new entry for SELL: price=762368: size=0.03: id=JRF20181004-132742-013790
+2018:10:04:22:27:40:491,191-MMStrategy,ordered sell @762368
+2018:10:04:22:27:40:637,192-Account-Entry,: new entry for BUY: price=762285: size=0.03: id=JRF20181004-132742-626978
+2018:10:04:22:27:40:637,193-MMStrategy,ordered buy @762285
+2018:10:04:22:27:40:785,194-Account-CheckCancel,cancelling = false, num orders=2
+2018:10:04:22:27:40:921,195-Accoubt-getAllOrders,: cancelling SELL for 762368 x 0.03 id=JRF20181004-132742-013790
+2018:10:04:22:27:41:003,196-Accoubt-getAllOrders,: cancelling BUY for 762285 x 0.03 id=JRF20181004-132742-626978
+2018:10:04:22:27:41:028,197-Account-checkExecutionAndUpdateOrders,: executed BUY for 762285 x 0.01
+2018:10:04:22:27:41:038,198-Account-checkExecutionAndUpdateOrders,: order JRF20181004-132742-626978 was partially executed
+2018:10:04:22:27:41:051,199-Account-checkExecutionAndUpdateOrders,: executed BUY for 762285 x 0.01
+2018:10:04:22:27:41:061,200-Account-checkExecutionAndUpdateOrders,: order JRF20181004-132742-626978 was partially executed
+2018:10:04:22:27:41:061,201-MMStrategy,ac.holding_total_size > 0
+2018:10:04:22:27:41:063,202-Account-startExitPriceTracingOrder,startExitPriceTracingOrder
+2018:10:04:22:27:41:087,203-Account-checkExecutionAndUpdateOrders,: executed BUY for 762285 x 0.01
+2018:10:04:22:27:41:096,204-Account-checkExecutionAndUpdateOrders,: order JRF20181004-132742-626978 was full filled and removed
+2018:10:04:22:27:41:886,205-Account-CheckCancel,sendChiledOrderAsync-dummy
+2018:10:04:22:27:41:922,206-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:27:42:455,207-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:27:43:083,208-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:27:43:083,209-Account-CheckCancel,cancelled SELL, price=762368 x 0.03
+2018:10:04:22:27:43:167,210-Account-Entry,: new entry for SELL: price=762309: size=0.03: id=JRF20181004-132745-948896
+2018:10:04:22:27:43:369,211-Account-checkExecutionAndUpdateOrders,: executed SELL for 762317 x 0.01
+2018:10:04:22:27:43:379,212-Account-checkExecutionAndUpdateOrders,: order JRF20181004-132745-948896 was partially executed
+2018:10:04:22:27:43:402,213-Account-checkExecutionAndUpdateOrders,: executed SELL for 762317 x 0.01
+2018:10:04:22:27:43:411,214-Account-checkExecutionAndUpdateOrders,: order JRF20181004-132745-948896 was partially executed
+2018:10:04:22:27:43:418,215-Account-checkExecutionAndUpdateOrders,: executed SELL for 762317 x 0.01
+2018:10:04:22:27:43:426,216-Account-checkExecutionAndUpdateOrders,: order JRF20181004-132745-948896 was full filled and removed
+2018:10:04:22:27:43:766,217-Account-CheckCancel,getChildOrderAsync-ACTIVE
+2018:10:04:22:27:43:857,218-Account-CheckCancel,num cancelling = 0, res=
+2018:10:04:22:27:44:358,219-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:45:380,220-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:46:431,221-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:47:434,222-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:48:438,223-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:49:440,224-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:50:447,225-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:51:451,226-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:52:467,227-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:53:477,228-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:54:478,229-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:55:483,230-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:56:485,231-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:57:493,232-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:58:495,233-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:27:59:496,234-Account-CheckCancel,cancelling = false, num orders=0
+2018:10:04:22:28:00:496,235-Account-CheckCancel,cancelling = false, num orders=0

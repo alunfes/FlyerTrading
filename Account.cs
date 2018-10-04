@@ -72,6 +72,13 @@ namespace FlyerTrading
             lock (lockorder)
                 return current_orders;
         }
+        public string getOrderStatus(string id)
+        {
+            lock (lockorder)
+            {
+                return current_orders.Where(x => x.order_id == id).ToList()[0].order_status; 
+            }
+        }
         private void updateOrderStatus(string status, string id)
         {
             lock (lockorder)
@@ -333,28 +340,34 @@ namespace FlyerTrading
 
         public async Task<string> cancelOrder(string id)
         {
-            var res = await FlyerAPI2.cancelChildOrdersAsync(id);
-            if (res == "")
+            string res = "";
+            if (getOrderStatus(id) != "CANCELLING")
             {
-                var ord = getAllOrders().Where(x=>x.order_id ==id).ToList();
-                if (ord.Count > 0)
+                res = await FlyerAPI2.cancelChildOrdersAsync(id);
+                if (res == "")
                 {
-                    if (ord[0].order_status != "CANCELLING")
+                    var ord = getAllOrders().Where(x => x.order_id == id).ToList();
+                    if (ord.Count > 0)
                     {
-                        takeLog(DateTime.Now + ": cancelling " + ord[0].order_side + " for " + ord[0].order_price + " x " + ord[0].order_lot + " id=" + ord[0].order_id);
-                        Log.addLog("Account-CancelOrder", ": cancelling " + ord[0].order_side + " for " + ord[0].order_price + " x " + ord[0].order_lot + " id=" + ord[0].order_id);
-                        Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("cancelling " + ord[0].order_side + " for " + ord[0].order_price + " x " + ord[0].order_lot + " id=" + ord[0].order_id); }));
-                        updateOrderStatus("CANCELLING", id);
-                        cancelling = true;
+                        if (ord[0].order_status != "CANCELLING")
+                        {
+                            takeLog(DateTime.Now + ": cancelling " + ord[0].order_side + " for " + ord[0].order_price + " x " + ord[0].order_lot + " id=" + ord[0].order_id);
+                            Log.addLog("Account-CancelOrder", ": cancelling " + ord[0].order_side + " for " + ord[0].order_price + " x " + ord[0].order_lot + " id=" + ord[0].order_id);
+                            Form1.Form1Instance.Invoke((Action)(() => { Form1.Form1Instance.addListBox2("cancelling " + ord[0].order_side + " for " + ord[0].order_price + " x " + ord[0].order_lot + " id=" + ord[0].order_id); }));
+                            updateOrderStatus("CANCELLING", id);
+                            cancelling = true;
+                        }
                     }
+                }
+                else
+                {
+                    takeLog("failed cancel order: " + res);
+                    Log.addLog("Account-CancelOrder", "failed cancel order, id= " +id + " res="+ res);
+                    res = "error";
                 }
             }
             else
-            {
-                takeLog("failed cancel order: " + res);
-                Log.addLog("Account-CancelOrder", "failed cancel order: " + res);
-                res = "error";
-            }
+                res = "alreday cancelling";
             return res;
         }
 
